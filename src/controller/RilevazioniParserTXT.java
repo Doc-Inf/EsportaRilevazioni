@@ -51,7 +51,7 @@ public class RilevazioniParserTXT implements RilevazioniParser{
 		Rilevazione currentRilevazione = null;
 		try(BufferedReader in = new BufferedReader( new FileReader(filename) );) {
 			while( (line=in.readLine()) != null ) {
-				if(lineNumber > 2) {
+				if(lineNumber >= 2) {
 					currentRilevazione = parseRilevazione(line, startDate);
 					if(currentRilevazione!=null) {
 						rilevazioni.add(currentRilevazione);
@@ -121,27 +121,50 @@ public class RilevazioniParserTXT implements RilevazioniParser{
 		int ore = Integer.parseInt(time[0]);
 		int minuti = Integer.parseInt(time[1]);
 		LocalTime ora = LocalTime.of(ore, minuti);
+		System.out.println("Data: " + dati[0] + " Ora: " + dati[1]);
+		
 		if(LocalDateTime.of(data.getYear(), data.getMonthValue(), data.getDayOfMonth(), ora.getHour(), ora.getMinute()).isAfter(startDate)) {
+			System.out.println("Temp out originale: " + dati[2]);
 			double tempOut = Double.parseDouble(dati[2]);
+			System.out.println("Temp out: " + tempOut);
 			double hiTemp = Double.parseDouble(dati[3]);
+			System.out.println("hiTemp: " + hiTemp);
 			double lowTemp = Double.parseDouble(dati[4]);
+			System.out.println("lowTemp: " + lowTemp);
 			int outHum = Integer.parseInt(dati[5]);
+			System.out.println("outHum: " + outHum);
 			double devPt = Double.parseDouble(dati[6]);
+			System.out.println("devPt: " + devPt);
 			double windSpeed = Double.parseDouble(dati[7]);
+			System.out.println("windSpeed: " + windSpeed);
 			String windDir = dati[8];
+			System.out.println("windDir: " + windDir);
 			double windRun = Double.parseDouble(dati[9]);
+			System.out.println("windRun: " + windRun);
 			double hiSpeed = Double.parseDouble(dati[10]);
+			System.out.println("hiSpeed: " + hiSpeed);
 			String hiDir = dati[11];
+			System.out.println("hiDir: " + hiDir);
 			double chillWind = Double.parseDouble(dati[12]);
+			System.out.println("chillWind: " + chillWind);
 			double heatIndex = Double.parseDouble(dati[13]);
+			System.out.println("heatIndex: " + heatIndex);
 			double thwIndex = Double.parseDouble(dati[14]);
+			System.out.println("thwIndex: " + thwIndex);
 			double bar = Double.parseDouble(dati[15]);
+			System.out.println("bar: " + bar);
 			double rain = Double.parseDouble(dati[16]);
+			System.out.println("rain: " + rain);
 			double rainRate = Double.parseDouble(dati[17]);
+			System.out.println("rainRate: " + rainRate);
 			double heatDD = Double.parseDouble(dati[18]);
+			System.out.println("heatDD: " + heatDD);
 			double coolDD = Double.parseDouble(dati[19]);
+			System.out.println("coolDD: " + coolDD);
 			double inTemp = Double.parseDouble(dati[20]);
+			System.out.println("inTemp: " + inTemp);
 			int inHum = Integer.parseInt(dati[21]);
+			System.out.println("inHum: " + inHum);
 			double inDew = Double.parseDouble(dati[22]);
 			double inHeat = Double.parseDouble(dati[23]);
 			double inEMC = Double.parseDouble(dati[24]);

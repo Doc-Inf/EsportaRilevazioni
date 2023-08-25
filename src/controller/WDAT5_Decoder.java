@@ -93,14 +93,15 @@ public class WDAT5_Decoder {
 	}
 	
 	
-	public void decode(String filename) {
-		/**	La lettura dei primi 212 byte contiene per i primi 20 byte dataSurveyrmazioni sul formato ed altro da capire
+	public void decode(String filename, String destinationFilename) {
+		/**	La lettura dei primi 212 byte contiene per i primi 20 byte informazioni sul formato ed altro da capire
 		 *  Dal byte 20, ogni 6 byte, ci sono le dataSurveyrmazioni dei dati salvati relativamente ad un singolo giorno
 		 *  I primi due di questi 6 byte contengono il numero di rilevazioni salvate per il giorno in questione
 		 *  Gli altri 4 byte tengono la posizione iniziale dei dati relativi a quel giorno
 		 *  Entrambe le dataSurveyrmazioni precedenti richiedono l'inversione dell'array di byte per essere lette 
 		 */
 		byte[] dataBuffer = new byte[212];
+		
 		try (BufferedInputStream in = new BufferedInputStream( new FileInputStream(filename))){
 			in.read(dataBuffer);
 			println( new String(dataBuffer, 0, 6) );
@@ -141,12 +142,13 @@ public class WDAT5_Decoder {
 							dataSurvey.get(dataSurvey.size()-1).setValue( LocalDateTime.of(LocalDate.of(year, month, day+1), LocalTime.ofSecondOfDay( 0 )));
 						}
 						
-						//saveData("2023-05_Dati_Originali.txt");
+						saveData("2023-05_Dati_Originali.txt");
+						
 						if(!headerPrinted) {
-							convertAndSaveData("2023-05.txt",true);	
+							convertAndSaveData(destinationFilename,true);	
 							headerPrinted = true;
 						}else {
-							convertAndSaveData("2023-05.txt",false);	
+							convertAndSaveData(destinationFilename,false);	
 						}						
 						dataSurvey.remove(dataSurvey.size()-1);
 					}
@@ -256,7 +258,7 @@ public class WDAT5_Decoder {
 			// In Temp
 			out.print( decimalFormatOne.format( dataSurvey.get(8).getValue() ) + "\t");
 			// In Hum
-			out.print( decimalFormatOne.format( dataSurvey.get(11).getValue() ) + "\t");
+			out.print( Math.round( (double) dataSurvey.get(11).getValue() ) + "\t");
 			// In Dev
 			// TO DO
 			out.print( "0.0\t");
@@ -498,8 +500,10 @@ public class WDAT5_Decoder {
 				break;
 			}
 			case "unsigned short":{
-				value = ByteBuffer.wrap(reverse(extract(data,offset,offset+2))).getShort();
-				value = value >= 0 ? value : 0x10000 + value; 
+				byte[] packet = { 0x00, 0x00, data[offset+1],data[offset]};
+				/*value = ByteBuffer.wrap(reverse(extract(data,offset,offset+2))).getShort();
+				value = value >= 0 ? value : 0x10000 + value; */
+				value = ByteBuffer.wrap(packet).getInt();
 				switch(measure.getName()) {
 				case "rain":{
 					/*
@@ -521,7 +525,7 @@ public class WDAT5_Decoder {
 				    */
 					
 					
-					
+					//measure.setValue(value);
 					measure.setValue(0.00);
 					break;
 			    }
@@ -550,7 +554,7 @@ public class WDAT5_Decoder {
 				}
 				case "insideHum":
 				case "outsideHum":{
-					measure.setValue( value / 10.0);
+					measure.setValue( value / 10.0 );
 					break;
 				}
 				case "windSpeed":
