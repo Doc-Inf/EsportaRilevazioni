@@ -27,22 +27,26 @@ public class RilevazioniController implements Runnable{
 	private boolean https;
 	private boolean filterByData;
 	
-	public RilevazioniController(String hostname, int port, boolean https, String projectDir, String fileRilevazioni, boolean filterByData) {
+	public RilevazioniController(String hostname, int port, String projectDir, String fileRilevazioni, boolean filterByData) {
 		this.hostname = hostname;
 		this.port = port;
+		if(port == 80) {
+			this.https = false;
+		}else {
+			this.https = true;
+		}
 		this.projectDir = projectDir;
 		this.filterByData = filterByData;
 		this.parser = new RilevazioniParserTXT(fileRilevazioni);
-		this.https = https;
 	}
 	
-	public RilevazioniController(String hostname, int port, String projectDir, boolean https, boolean filterByData) {
-		this(hostname,port, https, projectDir, DEFAULT_FILENAME,filterByData);
+	public RilevazioniController(String hostname, int port, String projectDir, boolean filterByData) {
+		this(hostname,port, projectDir, DEFAULT_FILENAME,filterByData);
 		this.hostname = hostname;		
 	}
 	
-	public RilevazioniController(String hostname, int port, String projectDir, boolean https) {
-		this(hostname,port, https, projectDir, DEFAULT_FILENAME, true);
+	public RilevazioniController(String hostname, int port, String projectDir) {
+		this(hostname,port, projectDir, DEFAULT_FILENAME, true);
 		log("Creazione controller avviata");			
 	}
 	

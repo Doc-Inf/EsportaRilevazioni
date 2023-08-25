@@ -4,8 +4,14 @@ import static view.AppLogger.log;
 
 public class DecodeAndExport implements Runnable{
 	
-	public DecodeAndExport() {
-		
+	private String hostname;
+	private int port;
+	private String projectDir;
+	
+	public DecodeAndExport(String hostname, int port, String projectDir) {
+		this.hostname = hostname;
+		this.port = port;
+		this.projectDir = projectDir;
 	}
 	
 	
@@ -24,6 +30,9 @@ public class DecodeAndExport implements Runnable{
 		WDAT5_Decoder decoder = new WDAT5_Decoder();
 		decoder.decode(lastWlkFile);
 		
+		String decodedFilename = lastWlkFile.split("\\.")[0] + "txt";
+				
+		new Thread( new RilevazioniController(hostname,port,projectDir,decodedFilename,true) ).start();
 	}
 
 }

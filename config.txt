@@ -1,5 +1,6 @@
 dirRilevazioni=C:\Users\andre\Documents\ProgettoMeteo
-hostname=www.itisvallauri.net
-port=443
-projectDir=meteo
+remoteHostname=www.itisvallauri.net
+remotePort=443
+remoteProjectDir=meteo
 localhostDir=ProgettoMeteo
+localhostPort=80
