@@ -128,7 +128,7 @@ public class EsportaRilevazioni {
 		
 		
 		ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
-		executor.scheduleAtFixedRate(new DecodeAndExport(hostname,port,projectDir), 0, 5, TimeUnit.MINUTES);
+		executor.scheduleAtFixedRate(new DecodeAndExport(hostname,port,projectDir), 0, 1, TimeUnit.MINUTES);
 		
 		terminate = false;
 		

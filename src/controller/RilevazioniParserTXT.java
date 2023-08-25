@@ -30,7 +30,7 @@ public class RilevazioniParserTXT implements RilevazioniParser{
 		int lineNumber = 0;
 		try(BufferedReader in = new BufferedReader( new FileReader(filename) );) {
 			while( (line=in.readLine()) != null ) {
-				if(lineNumber > 2) {
+				if(lineNumber >= 2) {
 					rilevazioni.add(parseRilevazione(line));
 				}		
 				++lineNumber;
@@ -51,6 +51,7 @@ public class RilevazioniParserTXT implements RilevazioniParser{
 		Rilevazione currentRilevazione = null;
 		try(BufferedReader in = new BufferedReader( new FileReader(filename) );) {
 			while( (line=in.readLine()) != null ) {
+				//System.out.println("Linea letta: " + line + " Numero rilevazioni lette: " + lineNumber );
 				if(lineNumber >= 2) {
 					currentRilevazione = parseRilevazione(line, startDate);
 					if(currentRilevazione!=null) {
@@ -121,10 +122,8 @@ public class RilevazioniParserTXT implements RilevazioniParser{
 		int ore = Integer.parseInt(time[0]);
 		int minuti = Integer.parseInt(time[1]);
 		LocalTime ora = LocalTime.of(ore, minuti);
-		System.out.println("Data: " + dati[0] + " Ora: " + dati[1]);
-		
+				
 		if(LocalDateTime.of(data.getYear(), data.getMonthValue(), data.getDayOfMonth(), ora.getHour(), ora.getMinute()).isAfter(startDate)) {
-			System.out.println("Temp out originale: " + dati[2]);
 			double tempOut = Double.parseDouble(dati[2]);
 			System.out.println("Temp out: " + tempOut);
 			double hiTemp = Double.parseDouble(dati[3]);

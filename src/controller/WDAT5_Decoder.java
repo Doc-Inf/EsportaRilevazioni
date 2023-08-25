@@ -7,6 +7,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.ByteBuffer;
+import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.text.DecimalFormat;
 import java.time.LocalDate;
@@ -100,6 +101,13 @@ public class WDAT5_Decoder {
 		 *  Gli altri 4 byte tengono la posizione iniziale dei dati relativi a quel giorno
 		 *  Entrambe le dataSurveyrmazioni precedenti richiedono l'inversione dell'array di byte per essere lette 
 		 */
+		if( Files.exists(Paths.get(destinationFilename)) ) {
+			try {
+				Files.delete(Paths.get(destinationFilename));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 		byte[] dataBuffer = new byte[212];
 		
 		try (BufferedInputStream in = new BufferedInputStream( new FileInputStream(filename))){
@@ -504,6 +512,7 @@ public class WDAT5_Decoder {
 				/*value = ByteBuffer.wrap(reverse(extract(data,offset,offset+2))).getShort();
 				value = value >= 0 ? value : 0x10000 + value; */
 				value = ByteBuffer.wrap(packet).getInt();
+				//System.out.println(String.format("%02x", value));
 				switch(measure.getName()) {
 				case "rain":{
 					/*
