@@ -15,7 +15,9 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import model.RecordInfo;
 
@@ -150,7 +152,7 @@ public class WDAT5_Decoder {
 							dataSurvey.get(dataSurvey.size()-1).setValue( LocalDateTime.of(LocalDate.of(year, month, day+1), LocalTime.ofSecondOfDay( 0 )));
 						}
 						
-						saveData("2023-05_Dati_Originali.txt");
+						saveData(year + "-" + month + "_Dati_Originali.txt");
 						
 						if(!headerPrinted) {
 							convertAndSaveData(destinationFilename,true);	
@@ -435,6 +437,7 @@ public class WDAT5_Decoder {
 	private void decode(byte[] data) {
 		int offset = 0;
 		int value;
+		double depth_per_click = -1;
 				
 		for(int i=0; i<dataSurvey.size(); ++i) {
 			RecordInfo measure =  dataSurvey.get(i);
@@ -509,33 +512,23 @@ public class WDAT5_Decoder {
 			}
 			case "unsigned short":{
 				byte[] packet = { 0x00, 0x00, data[offset+1],data[offset]};
-				/*value = ByteBuffer.wrap(reverse(extract(data,offset,offset+2))).getShort();
-				value = value >= 0 ? value : 0x10000 + value; */
 				value = ByteBuffer.wrap(packet).getInt();
-				//System.out.println(String.format("%02x", value));
+				
 				switch(measure.getName()) {
-				case "rain":{
-					/*
-				    rain_collector_type = value & 0xF000
-				    rain_clicks = value & 0x0FFF
-				    depth_per_click = {
-				        0x0000: 0.1 * 25.4,
-				        0x1000: 0.01 * 25.4,
-				        0x2000: 0.2,
-				        0x3000: 1.0,
-				        0x6000: 0.1,
-				    }[rain_collector_type]
-				    depth = depth_per_click * rain_clicks
-				    value = depth
-				    rate = result["hirainrate"] * depth_per_click
-				    result["hirainrate"] = rate
+				case "rain":{					
+				    int rain_collector_type = value & 0xF000;
+				    int rain_clicks = value & 0x0FFF;
+				    Map<Integer,Double> mappaClick = new HashMap<>();
+				    mappaClick.put( 0x0000, 0.1 * 25.4 );
+				    mappaClick.put( 0x1000, 0.01 * 25.4 );
+				    mappaClick.put( 0x2000, 0.2 );
+				    mappaClick.put( 0x3000, 1.0 );
+				    mappaClick.put( 0x6000, 0.1 );
 				    
-				    * DOvrebbe venire 0.0 per rain
-				    */
-					
-					
-					//measure.setValue(value);
-					measure.setValue(0.00);
+				    depth_per_click = mappaClick.get(rain_collector_type);
+				    double depth = depth_per_click * rain_clicks;
+				    measure.setValue( depth );
+				   
 					break;
 			    }
 				default:{
@@ -570,6 +563,10 @@ public class WDAT5_Decoder {
 				case "hiWindSpeed":{
 					measure.setValue( value / 10.0 * 1609.344 / 3600 );
 					break;
+				}
+				case "hiRainRate":{
+					double rate = value * depth_per_click;
+				    measure.setValue( rate );
 				}
 				default:{
 					measure.setValue(value);	

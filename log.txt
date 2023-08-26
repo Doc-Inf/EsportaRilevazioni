@@ -695,3 +695,941 @@ SERVER: Content-Length: 0
 SERVER: Connection: close
 SERVER: Content-Type: text/html; charset=UTF-8
 Richiesta di terminazione ricevuta con successo, l'applicazione completerà le operazioni in corso e poi si arresterà. Buona giornata!
+Questa applicazione decodificherà ed esporterà i dati della stazione
+La directory è C:\Users\andre\Documents\ProgettoMeteo
+Lista file wlk trovati:
+2023-05.wlk
+2023-06-01.wlk
+2023-06.wlk
+Numero di file wlk trovati nella directory: 3
+L'ultimo file wlk è C:\Users\andre\Documents\ProgettoMeteo\2023-06.wlk
+Controller Rilevazioni in esecuzione...
+Creato un socket normale
+ricerca data ultima rilevazione iniziata
+in attesa di risposta...
+richiesta inviata...
+Data letta: 2023-06-06 11:30:00
+Risposta: HTTP/1.1 200 OK
+Date: Sat, 26 Aug 2023 13:33:44 GMT
+Server: Apache/2.4.57 (Win64) PHP/8.2.8
+X-Powered-By: PHP/8.2.8
+Set-Cookie: PHPSESSID=6anj9uq5u96j2qe9m0aiifo1he; path=/
+Expires: Thu, 19 Nov 1981 08:52:00 GMT
+Cache-Control: no-store, no-cache, must-revalidate
+Pragma: no-cache
+Content-Length: 19
+Connection: close
+Content-Type: text/html; charset=UTF-8
+
+2023-06-06 11:30:00
+
+
+Data ultima modifica: 
+2023-06-06T11:30
+Parser in esecuzione...
+Parsing terminato
+[]
+SERVER: HTTP/1.1 200 OK
+SERVER: Date: Sat, 26 Aug 2023 13:33:44 GMT
+SERVER: Server: Apache/2.4.57 (Win64) PHP/8.2.8
+SERVER: X-Powered-By: PHP/8.2.8
+SERVER: Set-Cookie: PHPSESSID=s3p0u2tioeql9hi3n34jbkt5q4; path=/
+SERVER: Expires: Thu, 19 Nov 1981 08:52:00 GMT
+SERVER: Cache-Control: no-store, no-cache, must-revalidate
+SERVER: Pragma: no-cache
+SERVER: Content-Length: 0
+SERVER: Connection: close
+SERVER: Content-Type: text/html; charset=UTF-8
+La directory è C:\Users\andre\Documents\ProgettoMeteo
+Lista file wlk trovati:
+2023-05.wlk
+2023-06-01.wlk
+2023-06.wlk
+Numero di file wlk trovati nella directory: 3
+L'ultimo file wlk è C:\Users\andre\Documents\ProgettoMeteo\2023-06.wlk
+Controller Rilevazioni in esecuzione...
+Creato un socket normale
+ricerca data ultima rilevazione iniziata
+in attesa di risposta...
+richiesta inviata...
+Data letta: 2023-06-06 11:30:00
+Risposta: HTTP/1.1 200 OK
+Date: Sat, 26 Aug 2023 13:34:44 GMT
+Server: Apache/2.4.57 (Win64) PHP/8.2.8
+X-Powered-By: PHP/8.2.8
+Set-Cookie: PHPSESSID=1199qnkkp6nvho4flc0qfgduno; path=/
+Expires: Thu, 19 Nov 1981 08:52:00 GMT
+Cache-Control: no-store, no-cache, must-revalidate
+Pragma: no-cache
+Content-Length: 19
+Connection: close
+Content-Type: text/html; charset=UTF-8
+
+2023-06-06 11:30:00
+
+
+Data ultima modifica: 
+2023-06-06T11:30
+Parser in esecuzione...
+Parsing terminato
+[]
+SERVER: HTTP/1.1 200 OK
+SERVER: Date: Sat, 26 Aug 2023 13:34:44 GMT
+SERVER: Server: Apache/2.4.57 (Win64) PHP/8.2.8
+SERVER: X-Powered-By: PHP/8.2.8
+SERVER: Set-Cookie: PHPSESSID=kpokpmiskfnhoettugrunsaroq; path=/
+SERVER: Expires: Thu, 19 Nov 1981 08:52:00 GMT
+SERVER: Cache-Control: no-store, no-cache, must-revalidate
+SERVER: Pragma: no-cache
+SERVER: Content-Length: 0
+SERVER: Connection: close
+SERVER: Content-Type: text/html; charset=UTF-8
+La directory è C:\Users\andre\Documents\ProgettoMeteo
+Lista file wlk trovati:
+2023-05.wlk
+2023-06-01.wlk
+2023-06.wlk
+Numero di file wlk trovati nella directory: 3
+L'ultimo file wlk è C:\Users\andre\Documents\ProgettoMeteo\2023-06.wlk
+Controller Rilevazioni in esecuzione...
+Creato un socket normale
+ricerca data ultima rilevazione iniziata
+in attesa di risposta...
+richiesta inviata...
+Data letta: 2023-06-06 11:30:00
+Risposta: HTTP/1.1 200 OK
+Date: Sat, 26 Aug 2023 13:35:44 GMT
+Server: Apache/2.4.57 (Win64) PHP/8.2.8
+X-Powered-By: PHP/8.2.8
+Set-Cookie: PHPSESSID=8n9bsd1018n6ng6479pu4qrp85; path=/
+Expires: Thu, 19 Nov 1981 08:52:00 GMT
+Cache-Control: no-store, no-cache, must-revalidate
+Pragma: no-cache
+Content-Length: 19
+Connection: close
+Content-Type: text/html; charset=UTF-8
+
+2023-06-06 11:30:00
+
+
+Data ultima modifica: 
+2023-06-06T11:30
+Parser in esecuzione...
+Parsing terminato
+[]
+SERVER: HTTP/1.1 200 OK
+SERVER: Date: Sat, 26 Aug 2023 13:35:44 GMT
+SERVER: Server: Apache/2.4.57 (Win64) PHP/8.2.8
+SERVER: X-Powered-By: PHP/8.2.8
+SERVER: Set-Cookie: PHPSESSID=hok9basisqe7lqd255ns151c1t; path=/
+SERVER: Expires: Thu, 19 Nov 1981 08:52:00 GMT
+SERVER: Cache-Control: no-store, no-cache, must-revalidate
+SERVER: Pragma: no-cache
+SERVER: Content-Length: 0
+SERVER: Connection: close
+SERVER: Content-Type: text/html; charset=UTF-8
+La directory è C:\Users\andre\Documents\ProgettoMeteo
+Lista file wlk trovati:
+2023-05.wlk
+2023-06-01.wlk
+2023-06.wlk
+Numero di file wlk trovati nella directory: 3
+L'ultimo file wlk è C:\Users\andre\Documents\ProgettoMeteo\2023-06.wlk
+Controller Rilevazioni in esecuzione...
+Creato un socket normale
+ricerca data ultima rilevazione iniziata
+in attesa di risposta...
+richiesta inviata...
+Data letta: 2023-06-06 11:30:00
+Risposta: HTTP/1.1 200 OK
+Date: Sat, 26 Aug 2023 13:36:44 GMT
+Server: Apache/2.4.57 (Win64) PHP/8.2.8
+X-Powered-By: PHP/8.2.8
+Set-Cookie: PHPSESSID=tf374ntrih5cavjgkb0slfsa91; path=/
+Expires: Thu, 19 Nov 1981 08:52:00 GMT
+Cache-Control: no-store, no-cache, must-revalidate
+Pragma: no-cache
+Content-Length: 19
+Connection: close
+Content-Type: text/html; charset=UTF-8
+
+2023-06-06 11:30:00
+
+
+Data ultima modifica: 
+2023-06-06T11:30
+Parser in esecuzione...
+Parsing terminato
+[]
+SERVER: HTTP/1.1 200 OK
+SERVER: Date: Sat, 26 Aug 2023 13:36:44 GMT
+SERVER: Server: Apache/2.4.57 (Win64) PHP/8.2.8
+SERVER: X-Powered-By: PHP/8.2.8
+SERVER: Set-Cookie: PHPSESSID=7g6b3vd927o396gqhdqlk5aobt; path=/
+SERVER: Expires: Thu, 19 Nov 1981 08:52:00 GMT
+SERVER: Cache-Control: no-store, no-cache, must-revalidate
+SERVER: Pragma: no-cache
+SERVER: Content-Length: 0
+SERVER: Connection: close
+SERVER: Content-Type: text/html; charset=UTF-8
+La directory è C:\Users\andre\Documents\ProgettoMeteo
+Lista file wlk trovati:
+2023-05.wlk
+2023-06-01.wlk
+2023-06.wlk
+Numero di file wlk trovati nella directory: 3
+L'ultimo file wlk è C:\Users\andre\Documents\ProgettoMeteo\2023-06.wlk
+Controller Rilevazioni in esecuzione...
+Creato un socket normale
+ricerca data ultima rilevazione iniziata
+in attesa di risposta...
+richiesta inviata...
+Data letta: 2023-06-06 11:30:00
+Risposta: HTTP/1.1 200 OK
+Date: Sat, 26 Aug 2023 13:37:44 GMT
+Server: Apache/2.4.57 (Win64) PHP/8.2.8
+X-Powered-By: PHP/8.2.8
+Set-Cookie: PHPSESSID=7bo0t03poimlu4nuut0lpv96hd; path=/
+Expires: Thu, 19 Nov 1981 08:52:00 GMT
+Cache-Control: no-store, no-cache, must-revalidate
+Pragma: no-cache
+Content-Length: 19
+Connection: close
+Content-Type: text/html; charset=UTF-8
+
+2023-06-06 11:30:00
+
+
+Data ultima modifica: 
+2023-06-06T11:30
+Parser in esecuzione...
+Parsing terminato
+[]
+SERVER: HTTP/1.1 200 OK
+SERVER: Date: Sat, 26 Aug 2023 13:37:44 GMT
+SERVER: Server: Apache/2.4.57 (Win64) PHP/8.2.8
+SERVER: X-Powered-By: PHP/8.2.8
+SERVER: Set-Cookie: PHPSESSID=808uhats3rg77d2br8t5vdfei9; path=/
+SERVER: Expires: Thu, 19 Nov 1981 08:52:00 GMT
+SERVER: Cache-Control: no-store, no-cache, must-revalidate
+SERVER: Pragma: no-cache
+SERVER: Content-Length: 0
+SERVER: Connection: close
+SERVER: Content-Type: text/html; charset=UTF-8
+La directory è C:\Users\andre\Documents\ProgettoMeteo
+Lista file wlk trovati:
+2023-05.wlk
+2023-06-01.wlk
+2023-06.wlk
+Numero di file wlk trovati nella directory: 3
+L'ultimo file wlk è C:\Users\andre\Documents\ProgettoMeteo\2023-06.wlk
+Controller Rilevazioni in esecuzione...
+Creato un socket normale
+ricerca data ultima rilevazione iniziata
+in attesa di risposta...
+richiesta inviata...
+Data letta: 2023-06-06 11:30:00
+Risposta: HTTP/1.1 200 OK
+Date: Sat, 26 Aug 2023 13:38:44 GMT
+Server: Apache/2.4.57 (Win64) PHP/8.2.8
+X-Powered-By: PHP/8.2.8
+Set-Cookie: PHPSESSID=j4nu0mtmn3j6ccn422gtrme49g; path=/
+Expires: Thu, 19 Nov 1981 08:52:00 GMT
+Cache-Control: no-store, no-cache, must-revalidate
+Pragma: no-cache
+Content-Length: 19
+Connection: close
+Content-Type: text/html; charset=UTF-8
+
+2023-06-06 11:30:00
+
+
+Data ultima modifica: 
+2023-06-06T11:30
+Parser in esecuzione...
+Parsing terminato
+[]
+SERVER: HTTP/1.1 200 OK
+SERVER: Date: Sat, 26 Aug 2023 13:38:44 GMT
+SERVER: Server: Apache/2.4.57 (Win64) PHP/8.2.8
+SERVER: X-Powered-By: PHP/8.2.8
+SERVER: Set-Cookie: PHPSESSID=9oh0pojcpeatg7ubsq005tmol5; path=/
+SERVER: Expires: Thu, 19 Nov 1981 08:52:00 GMT
+SERVER: Cache-Control: no-store, no-cache, must-revalidate
+SERVER: Pragma: no-cache
+SERVER: Content-Length: 0
+SERVER: Connection: close
+SERVER: Content-Type: text/html; charset=UTF-8
+La directory è C:\Users\andre\Documents\ProgettoMeteo
+Lista file wlk trovati:
+2023-05.wlk
+2023-06-01.wlk
+2023-06.wlk
+Numero di file wlk trovati nella directory: 3
+L'ultimo file wlk è C:\Users\andre\Documents\ProgettoMeteo\2023-06.wlk
+Controller Rilevazioni in esecuzione...
+Creato un socket normale
+ricerca data ultima rilevazione iniziata
+in attesa di risposta...
+richiesta inviata...
+Data letta: 2023-06-06 11:30:00
+Risposta: HTTP/1.1 200 OK
+Date: Sat, 26 Aug 2023 13:39:44 GMT
+Server: Apache/2.4.57 (Win64) PHP/8.2.8
+X-Powered-By: PHP/8.2.8
+Set-Cookie: PHPSESSID=vu50ng78c61qoentqvsitvibp2; path=/
+Expires: Thu, 19 Nov 1981 08:52:00 GMT
+Cache-Control: no-store, no-cache, must-revalidate
+Pragma: no-cache
+Content-Length: 19
+Connection: close
+Content-Type: text/html; charset=UTF-8
+
+2023-06-06 11:30:00
+
+
+Data ultima modifica: 
+2023-06-06T11:30
+Parser in esecuzione...
+Parsing terminato
+[]
+SERVER: HTTP/1.1 200 OK
+SERVER: Date: Sat, 26 Aug 2023 13:39:44 GMT
+SERVER: Server: Apache/2.4.57 (Win64) PHP/8.2.8
+SERVER: X-Powered-By: PHP/8.2.8
+SERVER: Set-Cookie: PHPSESSID=gha2pila89lb23s5fvct8h2p2l; path=/
+SERVER: Expires: Thu, 19 Nov 1981 08:52:00 GMT
+SERVER: Cache-Control: no-store, no-cache, must-revalidate
+SERVER: Pragma: no-cache
+SERVER: Content-Length: 0
+SERVER: Connection: close
+SERVER: Content-Type: text/html; charset=UTF-8
+La directory è C:\Users\andre\Documents\ProgettoMeteo
+Lista file wlk trovati:
+2023-05.wlk
+2023-06-01.wlk
+2023-06.wlk
+Numero di file wlk trovati nella directory: 3
+L'ultimo file wlk è C:\Users\andre\Documents\ProgettoMeteo\2023-06.wlk
+Controller Rilevazioni in esecuzione...
+Creato un socket normale
+ricerca data ultima rilevazione iniziata
+in attesa di risposta...
+richiesta inviata...
+Data letta: 2023-06-06 11:30:00
+Risposta: HTTP/1.1 200 OK
+Date: Sat, 26 Aug 2023 13:40:44 GMT
+Server: Apache/2.4.57 (Win64) PHP/8.2.8
+X-Powered-By: PHP/8.2.8
+Set-Cookie: PHPSESSID=20eog2njdnke59ripk50rhosu3; path=/
+Expires: Thu, 19 Nov 1981 08:52:00 GMT
+Cache-Control: no-store, no-cache, must-revalidate
+Pragma: no-cache
+Content-Length: 19
+Connection: close
+Content-Type: text/html; charset=UTF-8
+
+2023-06-06 11:30:00
+
+
+Data ultima modifica: 
+2023-06-06T11:30
+Parser in esecuzione...
+Parsing terminato
+[]
+SERVER: HTTP/1.1 200 OK
+SERVER: Date: Sat, 26 Aug 2023 13:40:44 GMT
+SERVER: Server: Apache/2.4.57 (Win64) PHP/8.2.8
+SERVER: X-Powered-By: PHP/8.2.8
+SERVER: Set-Cookie: PHPSESSID=801tiono8r3vv3qosv3gotmq6m; path=/
+SERVER: Expires: Thu, 19 Nov 1981 08:52:00 GMT
+SERVER: Cache-Control: no-store, no-cache, must-revalidate
+SERVER: Pragma: no-cache
+SERVER: Content-Length: 0
+SERVER: Connection: close
+SERVER: Content-Type: text/html; charset=UTF-8
+La directory è C:\Users\andre\Documents\ProgettoMeteo
+Lista file wlk trovati:
+2023-05.wlk
+2023-06-01.wlk
+2023-06.wlk
+Numero di file wlk trovati nella directory: 3
+L'ultimo file wlk è C:\Users\andre\Documents\ProgettoMeteo\2023-06.wlk
+Controller Rilevazioni in esecuzione...
+Creato un socket normale
+ricerca data ultima rilevazione iniziata
+in attesa di risposta...
+richiesta inviata...
+Data letta: 2023-06-06 11:30:00
+Risposta: HTTP/1.1 200 OK
+Date: Sat, 26 Aug 2023 13:41:44 GMT
+Server: Apache/2.4.57 (Win64) PHP/8.2.8
+X-Powered-By: PHP/8.2.8
+Set-Cookie: PHPSESSID=0dbqh9jn4utho2147ksbqe24kd; path=/
+Expires: Thu, 19 Nov 1981 08:52:00 GMT
+Cache-Control: no-store, no-cache, must-revalidate
+Pragma: no-cache
+Content-Length: 19
+Connection: close
+Content-Type: text/html; charset=UTF-8
+
+2023-06-06 11:30:00
+
+
+Data ultima modifica: 
+2023-06-06T11:30
+Parser in esecuzione...
+Parsing terminato
+[]
+SERVER: HTTP/1.1 200 OK
+SERVER: Date: Sat, 26 Aug 2023 13:41:44 GMT
+SERVER: Server: Apache/2.4.57 (Win64) PHP/8.2.8
+SERVER: X-Powered-By: PHP/8.2.8
+SERVER: Set-Cookie: PHPSESSID=tn1lua5pav40h9tgdk571ls6ci; path=/
+SERVER: Expires: Thu, 19 Nov 1981 08:52:00 GMT
+SERVER: Cache-Control: no-store, no-cache, must-revalidate
+SERVER: Pragma: no-cache
+SERVER: Content-Length: 0
+SERVER: Connection: close
+SERVER: Content-Type: text/html; charset=UTF-8
+La directory è C:\Users\andre\Documents\ProgettoMeteo
+Lista file wlk trovati:
+2023-05.wlk
+2023-06-01.wlk
+2023-06.wlk
+Numero di file wlk trovati nella directory: 3
+L'ultimo file wlk è C:\Users\andre\Documents\ProgettoMeteo\2023-06.wlk
+Controller Rilevazioni in esecuzione...
+Creato un socket normale
+ricerca data ultima rilevazione iniziata
+in attesa di risposta...
+richiesta inviata...
+Data letta: 2023-06-06 11:30:00
+Risposta: HTTP/1.1 200 OK
+Date: Sat, 26 Aug 2023 13:42:44 GMT
+Server: Apache/2.4.57 (Win64) PHP/8.2.8
+X-Powered-By: PHP/8.2.8
+Set-Cookie: PHPSESSID=pa1qmfcq81gbr9eid4l91rlu4h; path=/
+Expires: Thu, 19 Nov 1981 08:52:00 GMT
+Cache-Control: no-store, no-cache, must-revalidate
+Pragma: no-cache
+Content-Length: 19
+Connection: close
+Content-Type: text/html; charset=UTF-8
+
+2023-06-06 11:30:00
+
+
+Data ultima modifica: 
+2023-06-06T11:30
+Parser in esecuzione...
+Parsing terminato
+[]
+SERVER: HTTP/1.1 200 OK
+SERVER: Date: Sat, 26 Aug 2023 13:42:44 GMT
+SERVER: Server: Apache/2.4.57 (Win64) PHP/8.2.8
+SERVER: X-Powered-By: PHP/8.2.8
+SERVER: Set-Cookie: PHPSESSID=8hcb62d1017kjo06ghd608ibub; path=/
+SERVER: Expires: Thu, 19 Nov 1981 08:52:00 GMT
+SERVER: Cache-Control: no-store, no-cache, must-revalidate
+SERVER: Pragma: no-cache
+SERVER: Content-Length: 0
+SERVER: Connection: close
+SERVER: Content-Type: text/html; charset=UTF-8
+La directory è C:\Users\andre\Documents\ProgettoMeteo
+Lista file wlk trovati:
+2023-05.wlk
+2023-06-01.wlk
+2023-06.wlk
+Numero di file wlk trovati nella directory: 3
+L'ultimo file wlk è C:\Users\andre\Documents\ProgettoMeteo\2023-06.wlk
+Controller Rilevazioni in esecuzione...
+Creato un socket normale
+ricerca data ultima rilevazione iniziata
+in attesa di risposta...
+richiesta inviata...
+Data letta: 2023-06-06 11:30:00
+Risposta: HTTP/1.1 200 OK
+Date: Sat, 26 Aug 2023 13:43:44 GMT
+Server: Apache/2.4.57 (Win64) PHP/8.2.8
+X-Powered-By: PHP/8.2.8
+Set-Cookie: PHPSESSID=p8ht379n4n688b85pegntj1v0u; path=/
+Expires: Thu, 19 Nov 1981 08:52:00 GMT
+Cache-Control: no-store, no-cache, must-revalidate
+Pragma: no-cache
+Content-Length: 19
+Connection: close
+Content-Type: text/html; charset=UTF-8
+
+2023-06-06 11:30:00
+
+
+Data ultima modifica: 
+2023-06-06T11:30
+Parser in esecuzione...
+Parsing terminato
+[]
+SERVER: HTTP/1.1 200 OK
+SERVER: Date: Sat, 26 Aug 2023 13:43:44 GMT
+SERVER: Server: Apache/2.4.57 (Win64) PHP/8.2.8
+SERVER: X-Powered-By: PHP/8.2.8
+SERVER: Set-Cookie: PHPSESSID=3k9prvpecs4138v0cvruiihiao; path=/
+SERVER: Expires: Thu, 19 Nov 1981 08:52:00 GMT
+SERVER: Cache-Control: no-store, no-cache, must-revalidate
+SERVER: Pragma: no-cache
+SERVER: Content-Length: 0
+SERVER: Connection: close
+SERVER: Content-Type: text/html; charset=UTF-8
+La directory è C:\Users\andre\Documents\ProgettoMeteo
+Lista file wlk trovati:
+2023-05.wlk
+2023-06-01.wlk
+2023-06.wlk
+Numero di file wlk trovati nella directory: 3
+L'ultimo file wlk è C:\Users\andre\Documents\ProgettoMeteo\2023-06.wlk
+Controller Rilevazioni in esecuzione...
+Creato un socket normale
+ricerca data ultima rilevazione iniziata
+in attesa di risposta...
+richiesta inviata...
+Data letta: 2023-06-06 11:30:00
+Risposta: HTTP/1.1 200 OK
+Date: Sat, 26 Aug 2023 13:44:44 GMT
+Server: Apache/2.4.57 (Win64) PHP/8.2.8
+X-Powered-By: PHP/8.2.8
+Set-Cookie: PHPSESSID=287lpv30hvsa2r8v82kj8j8ifg; path=/
+Expires: Thu, 19 Nov 1981 08:52:00 GMT
+Cache-Control: no-store, no-cache, must-revalidate
+Pragma: no-cache
+Content-Length: 19
+Connection: close
+Content-Type: text/html; charset=UTF-8
+
+2023-06-06 11:30:00
+
+
+Data ultima modifica: 
+2023-06-06T11:30
+Parser in esecuzione...
+Parsing terminato
+[]
+SERVER: HTTP/1.1 200 OK
+SERVER: Date: Sat, 26 Aug 2023 13:44:44 GMT
+SERVER: Server: Apache/2.4.57 (Win64) PHP/8.2.8
+SERVER: X-Powered-By: PHP/8.2.8
+SERVER: Set-Cookie: PHPSESSID=1aoouqbhtcie2o654ud8gst15p; path=/
+SERVER: Expires: Thu, 19 Nov 1981 08:52:00 GMT
+SERVER: Cache-Control: no-store, no-cache, must-revalidate
+SERVER: Pragma: no-cache
+SERVER: Content-Length: 0
+SERVER: Connection: close
+SERVER: Content-Type: text/html; charset=UTF-8
+Richiesta di terminazione ricevuta con successo, l'applicazione completerà le operazioni in corso e poi si arresterà. Buona giornata!
+Questa applicazione decodificherà ed esporterà i dati della stazione
+La directory è C:\Users\andre\Documents\ProgettoMeteo
+Lista file wlk trovati:
+2023-05.wlk
+2023-06-01.wlk
+2023-06.wlk
+Numero di file wlk trovati nella directory: 3
+L'ultimo file wlk è C:\Users\andre\Documents\ProgettoMeteo\2023-06.wlk
+Controller Rilevazioni in esecuzione...
+Creato un socket normale
+ricerca data ultima rilevazione iniziata
+in attesa di risposta...
+richiesta inviata...
+Data letta: 2023-06-06 11:30:00
+Risposta: HTTP/1.1 200 OK
+Date: Sat, 26 Aug 2023 13:45:16 GMT
+Server: Apache/2.4.57 (Win64) PHP/8.2.8
+X-Powered-By: PHP/8.2.8
+Set-Cookie: PHPSESSID=mmj4nbtinpgongnq2oqsb1alch; path=/
+Expires: Thu, 19 Nov 1981 08:52:00 GMT
+Cache-Control: no-store, no-cache, must-revalidate
+Pragma: no-cache
+Content-Length: 19
+Connection: close
+Content-Type: text/html; charset=UTF-8
+
+2023-06-06 11:30:00
+
+
+Data ultima modifica: 
+2023-06-06T11:30
+Parser in esecuzione...
+Parsing terminato
+[]
+SERVER: HTTP/1.1 200 OK
+SERVER: Date: Sat, 26 Aug 2023 13:45:16 GMT
+SERVER: Server: Apache/2.4.57 (Win64) PHP/8.2.8
+SERVER: X-Powered-By: PHP/8.2.8
+SERVER: Set-Cookie: PHPSESSID=g84bo34tm27u5i8aea1hkvn8vl; path=/
+SERVER: Expires: Thu, 19 Nov 1981 08:52:00 GMT
+SERVER: Cache-Control: no-store, no-cache, must-revalidate
+SERVER: Pragma: no-cache
+SERVER: Content-Length: 0
+SERVER: Connection: close
+SERVER: Content-Type: text/html; charset=UTF-8
+La directory è C:\Users\andre\Documents\ProgettoMeteo
+Lista file wlk trovati:
+2023-05.wlk
+2023-06-01.wlk
+2023-06.wlk
+Numero di file wlk trovati nella directory: 3
+L'ultimo file wlk è C:\Users\andre\Documents\ProgettoMeteo\2023-06.wlk
+Controller Rilevazioni in esecuzione...
+Creato un socket normale
+ricerca data ultima rilevazione iniziata
+in attesa di risposta...
+richiesta inviata...
+Data letta: 2023-06-06 11:30:00
+Risposta: HTTP/1.1 200 OK
+Date: Sat, 26 Aug 2023 13:46:16 GMT
+Server: Apache/2.4.57 (Win64) PHP/8.2.8
+X-Powered-By: PHP/8.2.8
+Set-Cookie: PHPSESSID=j0te03j2rkpdp12qf7hu11857f; path=/
+Expires: Thu, 19 Nov 1981 08:52:00 GMT
+Cache-Control: no-store, no-cache, must-revalidate
+Pragma: no-cache
+Content-Length: 19
+Connection: close
+Content-Type: text/html; charset=UTF-8
+
+2023-06-06 11:30:00
+
+
+Data ultima modifica: 
+2023-06-06T11:30
+Parser in esecuzione...
+Parsing terminato
+[]
+SERVER: HTTP/1.1 200 OK
+SERVER: Date: Sat, 26 Aug 2023 13:46:16 GMT
+SERVER: Server: Apache/2.4.57 (Win64) PHP/8.2.8
+SERVER: X-Powered-By: PHP/8.2.8
+SERVER: Set-Cookie: PHPSESSID=elkdrsj8kvfva132goh9obnnjl; path=/
+SERVER: Expires: Thu, 19 Nov 1981 08:52:00 GMT
+SERVER: Cache-Control: no-store, no-cache, must-revalidate
+SERVER: Pragma: no-cache
+SERVER: Content-Length: 0
+SERVER: Connection: close
+SERVER: Content-Type: text/html; charset=UTF-8
+La directory è C:\Users\andre\Documents\ProgettoMeteo
+Lista file wlk trovati:
+2023-05.wlk
+2023-06-01.wlk
+2023-06.wlk
+Numero di file wlk trovati nella directory: 3
+L'ultimo file wlk è C:\Users\andre\Documents\ProgettoMeteo\2023-06.wlk
+Controller Rilevazioni in esecuzione...
+Creato un socket normale
+ricerca data ultima rilevazione iniziata
+in attesa di risposta...
+richiesta inviata...
+Data letta: 2023-06-06 11:30:00
+Risposta: HTTP/1.1 200 OK
+Date: Sat, 26 Aug 2023 13:47:16 GMT
+Server: Apache/2.4.57 (Win64) PHP/8.2.8
+X-Powered-By: PHP/8.2.8
+Set-Cookie: PHPSESSID=5pcob1dse44e5fg5ditco88chn; path=/
+Expires: Thu, 19 Nov 1981 08:52:00 GMT
+Cache-Control: no-store, no-cache, must-revalidate
+Pragma: no-cache
+Content-Length: 19
+Connection: close
+Content-Type: text/html; charset=UTF-8
+
+2023-06-06 11:30:00
+
+
+Data ultima modifica: 
+2023-06-06T11:30
+Parser in esecuzione...
+Parsing terminato
+[]
+SERVER: HTTP/1.1 200 OK
+SERVER: Date: Sat, 26 Aug 2023 13:47:16 GMT
+SERVER: Server: Apache/2.4.57 (Win64) PHP/8.2.8
+SERVER: X-Powered-By: PHP/8.2.8
+SERVER: Set-Cookie: PHPSESSID=bvvn2q3b8ein4s9kummuv4ejp0; path=/
+SERVER: Expires: Thu, 19 Nov 1981 08:52:00 GMT
+SERVER: Cache-Control: no-store, no-cache, must-revalidate
+SERVER: Pragma: no-cache
+SERVER: Content-Length: 0
+SERVER: Connection: close
+SERVER: Content-Type: text/html; charset=UTF-8
+Richiesta di terminazione ricevuta con successo, l'applicazione completerà le operazioni in corso e poi si arresterà. Buona giornata!
+Questa applicazione decodificherà ed esporterà i dati della stazione
+La directory è C:\Users\andre\Documents\ProgettoMeteo
+Lista file wlk trovati:
+2023-05.wlk
+2023-06-01.wlk
+2023-06.wlk
+Numero di file wlk trovati nella directory: 3
+L'ultimo file wlk è C:\Users\andre\Documents\ProgettoMeteo\2023-06.wlk
+Controller Rilevazioni in esecuzione...
+Creato un socket normale
+ricerca data ultima rilevazione iniziata
+in attesa di risposta...
+richiesta inviata...
+Data letta: 2023-06-06 11:30:00
+Risposta: HTTP/1.1 200 OK
+Date: Sat, 26 Aug 2023 13:48:01 GMT
+Server: Apache/2.4.57 (Win64) PHP/8.2.8
+X-Powered-By: PHP/8.2.8
+Set-Cookie: PHPSESSID=jsipdnmkjiebrk8ru44mpqmi40; path=/
+Expires: Thu, 19 Nov 1981 08:52:00 GMT
+Cache-Control: no-store, no-cache, must-revalidate
+Pragma: no-cache
+Content-Length: 19
+Connection: close
+Content-Type: text/html; charset=UTF-8
+
+2023-06-06 11:30:00
+
+
+Data ultima modifica: 
+2023-06-06T11:30
+Parser in esecuzione...
+Parsing terminato
+[]
+SERVER: HTTP/1.1 200 OK
+SERVER: Date: Sat, 26 Aug 2023 13:48:01 GMT
+SERVER: Server: Apache/2.4.57 (Win64) PHP/8.2.8
+SERVER: X-Powered-By: PHP/8.2.8
+SERVER: Set-Cookie: PHPSESSID=q9vci2on6sumb4khjm2a62l94f; path=/
+SERVER: Expires: Thu, 19 Nov 1981 08:52:00 GMT
+SERVER: Cache-Control: no-store, no-cache, must-revalidate
+SERVER: Pragma: no-cache
+SERVER: Content-Length: 0
+SERVER: Connection: close
+SERVER: Content-Type: text/html; charset=UTF-8
+Richiesta di terminazione ricevuta con successo, l'applicazione completerà le operazioni in corso e poi si arresterà. Buona giornata!
+Questa applicazione decodificherà ed esporterà i dati della stazione
+La directory è C:\Users\andre\Documents\ProgettoMeteo
+Lista file wlk trovati:
+2023-05.wlk
+2023-06-01.wlk
+2023-06.wlk
+Numero di file wlk trovati nella directory: 3
+L'ultimo file wlk è C:\Users\andre\Documents\ProgettoMeteo\2023-06.wlk
+Controller Rilevazioni in esecuzione...
+Creato un socket normale
+ricerca data ultima rilevazione iniziata
+in attesa di risposta...
+richiesta inviata...
+Data letta: 2023-06-06 11:30:00
+Risposta: HTTP/1.1 200 OK
+Date: Sat, 26 Aug 2023 13:52:27 GMT
+Server: Apache/2.4.57 (Win64) PHP/8.2.8
+X-Powered-By: PHP/8.2.8
+Set-Cookie: PHPSESSID=fdfej5l06mqpiaimqg61hkotgm; path=/
+Expires: Thu, 19 Nov 1981 08:52:00 GMT
+Cache-Control: no-store, no-cache, must-revalidate
+Pragma: no-cache
+Content-Length: 19
+Connection: close
+Content-Type: text/html; charset=UTF-8
+
+2023-06-06 11:30:00
+
+
+Data ultima modifica: 
+2023-06-06T11:30
+Parser in esecuzione...
+Parsing terminato
+[]
+SERVER: HTTP/1.1 200 OK
+SERVER: Date: Sat, 26 Aug 2023 13:52:27 GMT
+SERVER: Server: Apache/2.4.57 (Win64) PHP/8.2.8
+SERVER: X-Powered-By: PHP/8.2.8
+SERVER: Set-Cookie: PHPSESSID=9giariuuepmnpplhiqcn8sune7; path=/
+SERVER: Expires: Thu, 19 Nov 1981 08:52:00 GMT
+SERVER: Cache-Control: no-store, no-cache, must-revalidate
+SERVER: Pragma: no-cache
+SERVER: Content-Length: 0
+SERVER: Connection: close
+SERVER: Content-Type: text/html; charset=UTF-8
+Richiesta di terminazione ricevuta con successo, l'applicazione completerà le operazioni in corso e poi si arresterà. Buona giornata!
+Questa applicazione decodificherà ed esporterà i dati della stazione
+La directory è C:\Users\andre\Documents\ProgettoMeteo
+Lista file wlk trovati:
+2023-05.wlk
+2023-06-01.wlk
+2023-06.wlk
+Numero di file wlk trovati nella directory: 3
+L'ultimo file wlk è C:\Users\andre\Documents\ProgettoMeteo\2023-06.wlk
+Controller Rilevazioni in esecuzione...
+Creato un socket normale
+ricerca data ultima rilevazione iniziata
+in attesa di risposta...
+richiesta inviata...
+Data letta: 2023-06-06 11:30:00
+Risposta: HTTP/1.1 200 OK
+Date: Sat, 26 Aug 2023 13:54:28 GMT
+Server: Apache/2.4.57 (Win64) PHP/8.2.8
+X-Powered-By: PHP/8.2.8
+Set-Cookie: PHPSESSID=l3luc91bthfqghf399gt8nq4pa; path=/
+Expires: Thu, 19 Nov 1981 08:52:00 GMT
+Cache-Control: no-store, no-cache, must-revalidate
+Pragma: no-cache
+Content-Length: 19
+Connection: close
+Content-Type: text/html; charset=UTF-8
+
+2023-06-06 11:30:00
+
+
+Data ultima modifica: 
+2023-06-06T11:30
+Parser in esecuzione...
+Parsing terminato
+[]
+SERVER: HTTP/1.1 200 OK
+SERVER: Date: Sat, 26 Aug 2023 13:54:28 GMT
+SERVER: Server: Apache/2.4.57 (Win64) PHP/8.2.8
+SERVER: X-Powered-By: PHP/8.2.8
+SERVER: Set-Cookie: PHPSESSID=13e3obtoqj1nr3ldn98a35gt5q; path=/
+SERVER: Expires: Thu, 19 Nov 1981 08:52:00 GMT
+SERVER: Cache-Control: no-store, no-cache, must-revalidate
+SERVER: Pragma: no-cache
+SERVER: Content-Length: 0
+SERVER: Connection: close
+SERVER: Content-Type: text/html; charset=UTF-8
+Richiesta di terminazione ricevuta con successo, l'applicazione completerà le operazioni in corso e poi si arresterà. Buona giornata!
+Questa applicazione decodificherà ed esporterà i dati della stazione
+La directory è C:\Users\andre\Documents\ProgettoMeteo
+Lista file wlk trovati:
+2023-05.wlk
+2023-06-01.wlk
+2023-06.wlk
+Numero di file wlk trovati nella directory: 3
+L'ultimo file wlk è C:\Users\andre\Documents\ProgettoMeteo\2023-06.wlk
+Controller Rilevazioni in esecuzione...
+Creato un socket normale
+ricerca data ultima rilevazione iniziata
+in attesa di risposta...
+richiesta inviata...
+Data letta: 2023-06-06 11:30:00
+Risposta: HTTP/1.1 200 OK
+Date: Sat, 26 Aug 2023 13:56:41 GMT
+Server: Apache/2.4.57 (Win64) PHP/8.2.8
+X-Powered-By: PHP/8.2.8
+Set-Cookie: PHPSESSID=detuuakbnuu7pgs1tegbe5djrh; path=/
+Expires: Thu, 19 Nov 1981 08:52:00 GMT
+Cache-Control: no-store, no-cache, must-revalidate
+Pragma: no-cache
+Content-Length: 19
+Connection: close
+Content-Type: text/html; charset=UTF-8
+
+2023-06-06 11:30:00
+
+
+Data ultima modifica: 
+2023-06-06T11:30
+Parser in esecuzione...
+Parsing terminato
+[]
+SERVER: HTTP/1.1 200 OK
+SERVER: Date: Sat, 26 Aug 2023 13:56:41 GMT
+SERVER: Server: Apache/2.4.57 (Win64) PHP/8.2.8
+SERVER: X-Powered-By: PHP/8.2.8
+SERVER: Set-Cookie: PHPSESSID=cpi4sphg2igfok3iuua4fn7qsd; path=/
+SERVER: Expires: Thu, 19 Nov 1981 08:52:00 GMT
+SERVER: Cache-Control: no-store, no-cache, must-revalidate
+SERVER: Pragma: no-cache
+SERVER: Content-Length: 0
+SERVER: Connection: close
+SERVER: Content-Type: text/html; charset=UTF-8
+Richiesta di terminazione ricevuta con successo, l'applicazione completerà le operazioni in corso e poi si arresterà. Buona giornata!
+Questa applicazione decodificherà ed esporterà i dati della stazione
+La directory è C:\Users\andre\Documents\ProgettoMeteo
+Lista file wlk trovati:
+2023-05.wlk
+2023-06-01.wlk
+2023-06.wlk
+Numero di file wlk trovati nella directory: 3
+L'ultimo file wlk è C:\Users\andre\Documents\ProgettoMeteo\2023-06.wlk
+Controller Rilevazioni in esecuzione...
+Creato un socket normale
+ricerca data ultima rilevazione iniziata
+in attesa di risposta...
+richiesta inviata...
+Data letta: 2023-06-06 11:30:00
+Risposta: HTTP/1.1 200 OK
+Date: Sat, 26 Aug 2023 13:57:07 GMT
+Server: Apache/2.4.57 (Win64) PHP/8.2.8
+X-Powered-By: PHP/8.2.8
+Set-Cookie: PHPSESSID=g5r4rodspi4k4ao3g82h5f4vun; path=/
+Expires: Thu, 19 Nov 1981 08:52:00 GMT
+Cache-Control: no-store, no-cache, must-revalidate
+Pragma: no-cache
+Content-Length: 19
+Connection: close
+Content-Type: text/html; charset=UTF-8
+
+2023-06-06 11:30:00
+
+
+Data ultima modifica: 
+2023-06-06T11:30
+Parser in esecuzione...
+Parsing terminato
+[]
+SERVER: HTTP/1.1 200 OK
+SERVER: Date: Sat, 26 Aug 2023 13:57:07 GMT
+SERVER: Server: Apache/2.4.57 (Win64) PHP/8.2.8
+SERVER: X-Powered-By: PHP/8.2.8
+SERVER: Set-Cookie: PHPSESSID=re5b2ssejj2ekefdk2duqdse6f; path=/
+SERVER: Expires: Thu, 19 Nov 1981 08:52:00 GMT
+SERVER: Cache-Control: no-store, no-cache, must-revalidate
+SERVER: Pragma: no-cache
+SERVER: Content-Length: 0
+SERVER: Connection: close
+SERVER: Content-Type: text/html; charset=UTF-8
+La directory è C:\Users\andre\Documents\ProgettoMeteo
+Lista file wlk trovati:
+2023-05.wlk
+2023-06-01.wlk
+2023-06.wlk
+Numero di file wlk trovati nella directory: 3
+L'ultimo file wlk è C:\Users\andre\Documents\ProgettoMeteo\2023-06.wlk
+Controller Rilevazioni in esecuzione...
+Creato un socket normale
+ricerca data ultima rilevazione iniziata
+in attesa di risposta...
+richiesta inviata...
+Data letta: 2023-06-06 11:30:00
+Risposta: HTTP/1.1 200 OK
+Date: Sat, 26 Aug 2023 13:58:07 GMT
+Server: Apache/2.4.57 (Win64) PHP/8.2.8
+X-Powered-By: PHP/8.2.8
+Set-Cookie: PHPSESSID=nhd328ov28r85metg2l7278ip6; path=/
+Expires: Thu, 19 Nov 1981 08:52:00 GMT
+Cache-Control: no-store, no-cache, must-revalidate
+Pragma: no-cache
+Content-Length: 19
+Connection: close
+Content-Type: text/html; charset=UTF-8
+
+2023-06-06 11:30:00
+
+
+Data ultima modifica: 
+2023-06-06T11:30
+Parser in esecuzione...
+Parsing terminato
+[]
+SERVER: HTTP/1.1 200 OK
+SERVER: Date: Sat, 26 Aug 2023 13:58:07 GMT
+SERVER: Server: Apache/2.4.57 (Win64) PHP/8.2.8
+SERVER: X-Powered-By: PHP/8.2.8
+SERVER: Set-Cookie: PHPSESSID=hdueo0ku5pps8065skar0afqkm; path=/
+SERVER: Expires: Thu, 19 Nov 1981 08:52:00 GMT
+SERVER: Cache-Control: no-store, no-cache, must-revalidate
+SERVER: Pragma: no-cache
+SERVER: Content-Length: 0
+SERVER: Connection: close
+SERVER: Content-Type: text/html; charset=UTF-8
+Richiesta di terminazione ricevuta con successo, l'applicazione completerà le operazioni in corso e poi si arresterà. Buona giornata!
