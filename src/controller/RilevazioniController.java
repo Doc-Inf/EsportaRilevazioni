@@ -234,7 +234,7 @@ public class RilevazioniController implements Runnable{
 				out.println();
 				out.flush();
 				log("richiesta inviata...");
-				if(result.toString()==null || result.toString().trim()=="") {
+				while(result.toString()==null || result.toString().trim().equals("")) {
 					synchronized(condition) {
 						try {
 							condition.wait();
