@@ -10,6 +10,7 @@ import java.nio.ByteBuffer;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -17,6 +18,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import model.RecordInfo;
@@ -221,8 +223,15 @@ public class WDAT5_Decoder {
 			out.print( measureDate.format(DateTimeFormatter.ofPattern("dd/MM/yy")) + "\t");
 			out.print( measureDate.format(DateTimeFormatter.ofPattern("HH:mm")) + "\t");
 			
-			DecimalFormat decimalFormatOne = new DecimalFormat("0.0");
-			DecimalFormat decimalFormatTwo = new DecimalFormat("0.00");
+			NumberFormat nf = NumberFormat.getNumberInstance(Locale.US);
+			DecimalFormat decimalFormatOne = (DecimalFormat) nf;
+			decimalFormatOne.applyPattern("0.0");
+			NumberFormat nf2 = NumberFormat.getNumberInstance(Locale.US);
+			DecimalFormat decimalFormatTwo = (DecimalFormat) nf2;
+			decimalFormatTwo.applyPattern("0.00");
+			/*DecimalFormat decimalFormatOne = new DecimalFormat("0.0");
+			DecimalFormat decimalFormatTwo = new DecimalFormat("0.00");*/
+			
 			// outsideTemp
 			out.print( decimalFormatOne.format( dataSurvey.get(5).getValue() ) + "\t");
 			// hiOutsideTemp

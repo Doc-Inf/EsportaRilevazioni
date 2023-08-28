@@ -7,8 +7,14 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Base64;
 import java.util.List;
 
 import javax.net.ssl.SSLSocketFactory;
@@ -30,14 +36,19 @@ public class RilevazioniController implements Runnable{
 	public RilevazioniController(String hostname, int port, String projectDir, String fileRilevazioni, boolean filterByData) {
 		this.hostname = hostname;
 		this.port = port;
-		if(port == 80) {
-			this.https = false;
-		}else {
-			this.https = true;
-		}
 		this.projectDir = projectDir;
 		this.filterByData = filterByData;
 		this.parser = new RilevazioniParserTXT(fileRilevazioni);
+		if(port == 443) {
+			this.https = true;
+		}else {
+			if(port == 80) {
+				this.https = false;
+			}else {
+				throw new RuntimeException("Porta non valida, al momento è supportato solo l'https (porta 443) e l'http (porta 80)");
+			}
+		}
+		
 	}
 	
 	public RilevazioniController(String hostname, int port, String projectDir, boolean filterByData) {
@@ -56,6 +67,7 @@ public class RilevazioniController implements Runnable{
 		List<Rilevazione> rilevazioni;
 		if(filterByData) {
 			LocalDateTime lastDate = getLastDate();
+			
 			rilevazioni = parser.parseFile(lastDate);
 		}else {
 			rilevazioni = parser.parseFile();
@@ -141,12 +153,28 @@ public class RilevazioniController implements Runnable{
 			out.println("POST /" + projectDir + "/ws/insert.php HTTP/1.1");
 			out.println("HOST: " + hostname);
 			out.println("Content-Type: text/html; charset=utf-8");
+			//out.println("Auth: d3NEb2NlbnRlOkAjTWV0ZW9yaXRlMjM=");
+			out.println("Auth: " + getAutenticationString());
 			out.println("CONTENT-LENGTH: " + dati.length);
 			out.println("Connection: close");
 			out.println();
 			out.println(sb.toString());
 			out.println("\n");
 			out.flush();
+			
+			
+			StringBuilder lb = new StringBuilder();
+			lb.append("CLIENT: POST /" + projectDir + "/ws/insert.php HTTP/1.1\n");
+			lb.append("CLIENT: HOST: " + hostname + "\n");
+			lb.append("CLIENT: Content-Type: text/html; charset=utf-8\n");
+			lb.append("CLIENT: Auth: " + getAutenticationString() + "\n");
+			//lb.append("CLIENT: Auth: d3NEb2NlbnRlOkAjTWV0ZW9yaXRlMjM=\n");
+			//lb.append("CLIENT: Authorization: Basic d3NEb2NlbnRlOkAjTWV0ZW9yaXRlMjM=\n");
+			lb.append("CLIENT: CONTENT-LENGTH: " + dati.length + "\n");
+			lb.append("CLIENT: Connection: close\n");
+						
+			log(lb.toString());
+			
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -175,6 +203,7 @@ public class RilevazioniController implements Runnable{
 				StringBuilder sb = new StringBuilder();
 				Object condition = new Object();
 				StringBuilder result = new StringBuilder();
+				Semaforo dataOttenuta = new Semaforo();
 				log("ricerca data ultima rilevazione iniziata");
 				new Thread(()->{
 					try {
@@ -209,10 +238,11 @@ public class RilevazioniController implements Runnable{
 										}
 																				
 									}else {		
-										log("Data letta: " + result.toString());
+										log("Data letta: " + result.toString());										
 										sb.append("\n");
 										++status;
-										done=true;																	
+										done=true;
+										dataOttenuta.setDone(true);
 									}
 									break;
 								}								
@@ -234,7 +264,7 @@ public class RilevazioniController implements Runnable{
 				out.println();
 				out.flush();
 				log("richiesta inviata...");
-				while(result.toString()==null || result.toString().trim().equals("")) {
+				while(!dataOttenuta.isDone()) {
 					synchronized(condition) {
 						try {
 							condition.wait();
@@ -245,7 +275,9 @@ public class RilevazioniController implements Runnable{
 				}
 				log("Risposta: " + sb.toString());
 				try {
+					log("DATA DENTRO RESULT: " + result);
 					lastDate = LocalDateTime.parse(result.toString(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+					log("LAST DATE: " + lastDate);
 					log("Data ultima modifica: \n" + lastDate.toString());	
 				}catch(Exception e) {
 					return null;
@@ -260,5 +292,26 @@ public class RilevazioniController implements Runnable{
 		
 		return lastDate;
 	}
+	
+	private String getAutenticationString() {
+		String result = null;
+		try {
+			List<String> lines = Files.readAllLines(Paths.get("config.txt"));
+			String pw = null;
+			for(int i=0; i<lines.size(); ++i) {
+				int j = lines.get(i).indexOf('=');
+				if(lines.get(i).substring(0,j).trim().equalsIgnoreCase("auth")) {
+					pw = lines.get(i).substring(j+1).trim();
+				}
+			}
+			LocalDateTime d = LocalDateTime.now();
+			pw += "" + d.getYear() + d.getMonthValue() + d.getDayOfMonth() + d.getHour();
+			MessageDigest digest = MessageDigest.getInstance("SHA-256");
+			byte[] hash = digest.digest(pw.getBytes(StandardCharsets.UTF_8));
+			result = Base64.getEncoder().encodeToString(hash);
+		} catch (IOException | NoSuchAlgorithmException e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
 }
-

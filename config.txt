@@ -4,3 +4,4 @@ remotePort=443
 remoteProjectDir=meteo
 localhostDir=ProgettoMeteo
 localhostPort=80
+Auth=wsDocente@#Meteorite23
