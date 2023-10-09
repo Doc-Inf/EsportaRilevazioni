@@ -125,8 +125,9 @@ public class WDAT5_Decoder {
 			month = Integer.parseInt(data.split("-")[1]);
 			println("Anno: " + year + " Mese: " + month);
 			boolean headerPrinted = false;
-			
-			for(int day=1; day<32; ++day) {
+			int[] dayInMonth = {31,28,31,30,31,30,31,31,30,31,30,31};
+			int monthDays = dayInMonth[((int)month)-1];
+			for(int day=1; day<monthDays; ++day) {
 				int i = 20 + (day * 6); 
 				int j = i + 6;
 				byte[] dayIndexByteArray = extract(dataBuffer, i, j);

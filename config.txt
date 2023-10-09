@@ -1,4 +1,4 @@
-dirRilevazioni=C:\Users\andre\Documents\ProgettoMeteo
+dirRilevazioni=C:\Users\andre\Documents\ProgettoMeteo\Rilevazioni
 remoteHostname=www.itisvallauri.net
 remotePort=443
 remoteProjectDir=meteo

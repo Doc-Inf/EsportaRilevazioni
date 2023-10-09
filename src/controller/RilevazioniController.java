@@ -32,12 +32,12 @@ public class RilevazioniController implements Runnable{
 	private RilevazioniParserTXT parser;
 	private boolean https;
 	private boolean filterByData;
+	private String startDate;
 	
-	public RilevazioniController(String hostname, int port, String projectDir, String fileRilevazioni, boolean filterByData) {
+	public RilevazioniController(String hostname, int port, String projectDir, String fileRilevazioni) {
 		this.hostname = hostname;
 		this.port = port;
 		this.projectDir = projectDir;
-		this.filterByData = filterByData;
 		this.parser = new RilevazioniParserTXT(fileRilevazioni);
 		if(port == 443) {
 			this.https = true;
@@ -49,6 +49,17 @@ public class RilevazioniController implements Runnable{
 			}
 		}
 		
+	}
+	
+	public RilevazioniController(String hostname, int port, String projectDir, String fileRilevazioni, boolean filterByData) {
+		this(hostname,port,projectDir,fileRilevazioni);
+		this.filterByData = filterByData;
+	}
+	
+	public RilevazioniController(String hostname, int port, String projectDir, String fileRilevazioni, String startDate) {
+		this(hostname,port,projectDir,fileRilevazioni);
+		this.filterByData = true;
+		this.startDate = startDate;
 	}
 	
 	public RilevazioniController(String hostname, int port, String projectDir, boolean filterByData) {
@@ -66,9 +77,12 @@ public class RilevazioniController implements Runnable{
 		log("Controller Rilevazioni in esecuzione...");		
 		List<Rilevazione> rilevazioni;
 		if(filterByData) {
-			LocalDateTime lastDate = getLastDate();
-			
-			rilevazioni = parser.parseFile(lastDate);
+			if(startDate==null) {
+				LocalDateTime lastDate = getLastDate();				
+				rilevazioni = parser.parseFile(lastDate);
+			}else {
+				rilevazioni = parser.parseFile(LocalDateTime.parse( startDate, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+			}			
 		}else {
 			rilevazioni = parser.parseFile();
 		}

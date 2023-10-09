@@ -37,7 +37,7 @@ public class RilevazioniParserTXT implements RilevazioniParser{
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
-		}
+		} 
 		log("Parsing terminato");
 		return rilevazioni;
 	}
