@@ -20,6 +20,7 @@ public class EsportaRilevazioni {
 	private static String hostname = null;
 	private static int port = -1;
 	private static String projectDir = null;
+	private static String dirRilevazioni = null;
 	private static String startDate = null;
 	private static String filename = null;
 
@@ -66,8 +67,8 @@ public class EsportaRilevazioni {
 						
 						WDAT5_Decoder decoder = new WDAT5_Decoder();
 						decoder.decode(filename,decodedFilename);
-						new Thread( new RilevazioniController(hostname,port,projectDir,decodedFilename,startDate) ).start();
-						break;
+						new RilevazioniController(hostname,port,projectDir,decodedFilename,startDate).run();
+						return;
 					}
 					case "2":{
 						end = true;
@@ -81,8 +82,8 @@ public class EsportaRilevazioni {
 						
 						WDAT5_Decoder decoder = new WDAT5_Decoder();
 						decoder.decode(filename,decodedFilename);
-						new Thread( new RilevazioniController(hostname,port,projectDir,decodedFilename,startDate) ).start();					
-						break;
+						new RilevazioniController(hostname,port,projectDir,decodedFilename,startDate).run();	
+						return;
 					}
 					default:{
 						log("Comando inserito errato...\n\n");
@@ -99,7 +100,7 @@ public class EsportaRilevazioni {
 		
 		
 		ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
-		executor.scheduleAtFixedRate(new DecodeAndExport(hostname,port,projectDir), 0, 5, TimeUnit.MINUTES);
+		executor.scheduleAtFixedRate(new DecodeAndExport(hostname,port,projectDir,dirRilevazioni), 0, 5, TimeUnit.MINUTES);
 		
 		terminate = false;
 		
@@ -129,7 +130,7 @@ public class EsportaRilevazioni {
 				case "remoteHostname":{
 					hostname = data[1];
 					++numInfo;
-					if(numInfo==3) {
+					if(numInfo==4) {
 						break;
 					}
 					break;
@@ -137,7 +138,7 @@ public class EsportaRilevazioni {
 				case "remotePort":{
 					port = Integer.parseInt( data[1] );
 					++numInfo;
-					if(numInfo==3) {
+					if(numInfo==4) {
 						break;
 					}
 					break;
@@ -145,7 +146,15 @@ public class EsportaRilevazioni {
 				case "remoteProjectDir":{
 					projectDir = data[1];
 					++numInfo;
-					if(numInfo==3) {
+					if(numInfo==4) {
+						break;
+					}
+					break;
+				}
+				case "dirRilevazioni":{
+					dirRilevazioni = data[1];
+					++numInfo;
+					if(numInfo==4) {
 						break;
 					}
 					break;
@@ -175,7 +184,7 @@ public class EsportaRilevazioni {
 				case "localhostDir":{
 					projectDir = data[1];
 					++numInfo;
-					if(numInfo==2) {
+					if(numInfo==3) {
 						break;
 					}
 					break;
@@ -183,7 +192,15 @@ public class EsportaRilevazioni {
 				case "localhostPort":{
 					port = Integer.parseInt( data[1] );
 					++numInfo;
-					if(numInfo==2) {
+					if(numInfo==3) {
+						break;
+					}
+					break;
+				}
+				case "dirRilevazioni":{
+					dirRilevazioni = data[1];
+					++numInfo;
+					if(numInfo==3) {
 						break;
 					}
 					break;
@@ -199,6 +216,7 @@ public class EsportaRilevazioni {
 		hostname = read("Inserire l'hostname");
 		port = readInt("Inserire la porta del server");
 		projectDir = read("Inserire il path da richiedere al server");
+		dirRilevazioni = read("Inserire il path della directory dove si trovano le rilevazioni da esportare");
 		if(getFilename) {
 			filename = read("Inserire il nome del file wdat da cui prendere i dati");
 		}

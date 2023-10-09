@@ -21,6 +21,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import static view.AppLogger.*;
+
 import model.RecordInfo;
 
 public class WDAT5_Decoder {	
@@ -170,7 +172,7 @@ public class WDAT5_Decoder {
 			}		
 			
 		} catch (FileNotFoundException e) {
-			e.printStackTrace();
+			log("File not found: " + filename);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
