@@ -164,11 +164,15 @@ public class RilevazioniController implements Runnable{
 				
 			}).start();
 			
+			LocalDateTime dateTimeRequest = LocalDateTime.now();
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+			
 			out.println("POST /" + projectDir + "/ws/insert.php HTTP/1.1");
 			out.println("HOST: " + hostname);
 			out.println("Content-Type: text/html; charset=utf-8");
 			//out.println("Auth: d3NEb2NlbnRlOkAjTWV0ZW9yaXRlMjM=");
-			out.println("Auth: " + getAutenticationString());
+			out.println("Cookie: DateTime=" + dateTimeRequest.format(formatter));	
+			out.println("Auth: " + getAutenticationString(dateTimeRequest));			
 			out.println("CONTENT-LENGTH: " + dati.length);
 			out.println("Connection: close");
 			out.println();
@@ -181,7 +185,8 @@ public class RilevazioniController implements Runnable{
 			lb.append("CLIENT: POST /" + projectDir + "/ws/insert.php HTTP/1.1\n");
 			lb.append("CLIENT: HOST: " + hostname + "\n");
 			lb.append("CLIENT: Content-Type: text/html; charset=utf-8\n");
-			lb.append("CLIENT: Auth: " + getAutenticationString() + "\n");
+			lb.append("CLIENT: Cookie: DateTime=" + dateTimeRequest.format(formatter) + "\n");
+			lb.append("CLIENT: Auth: " + getAutenticationString(dateTimeRequest) + "\n");
 			//lb.append("CLIENT: Auth: d3NEb2NlbnRlOkAjTWV0ZW9yaXRlMjM=\n");
 			//lb.append("CLIENT: Authorization: Basic d3NEb2NlbnRlOkAjTWV0ZW9yaXRlMjM=\n");
 			lb.append("CLIENT: CONTENT-LENGTH: " + dati.length + "\n");
@@ -307,7 +312,7 @@ public class RilevazioniController implements Runnable{
 		return lastDate;
 	}
 	
-	private String getAutenticationString() {
+	private String getAutenticationString(LocalDateTime d) {
 		String result = null;
 		try {
 			List<String> lines = Files.readAllLines(Paths.get("config.txt"));
@@ -318,8 +323,26 @@ public class RilevazioniController implements Runnable{
 					pw = lines.get(i).substring(j+1).trim();
 				}
 			}
-			LocalDateTime d = LocalDateTime.now();
-			pw += "" + d.getYear() + d.getMonthValue() + d.getDayOfMonth() + d.getHour();
+			
+			String oraPadded = null;
+			String minutePadded = null;
+			String secondPadded = null;
+			if(d.getHour()<10) {
+				oraPadded = "0" + d.getHour();
+			}else {
+				oraPadded = "" + d.getHour();
+			}
+			if(d.getMinute()<10) {
+				minutePadded = "0" + d.getMinute();
+			}else {
+				minutePadded = "" + d.getMinute();
+			}
+			if(d.getSecond()<10) {
+				secondPadded = "0" + d.getSecond();
+			}else {
+				secondPadded = "" + d.getSecond();
+			}
+			pw += "" + d.getYear() + d.getMonthValue() + d.getDayOfMonth() + oraPadded +minutePadded + secondPadded;
 			MessageDigest digest = MessageDigest.getInstance("SHA-256");
 			byte[] hash = digest.digest(pw.getBytes(StandardCharsets.UTF_8));
 			result = Base64.getEncoder().encodeToString(hash);
