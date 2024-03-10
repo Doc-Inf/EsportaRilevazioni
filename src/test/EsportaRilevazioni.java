@@ -26,7 +26,7 @@ public class EsportaRilevazioni {
 
 	public static void main(String[] args) {		
 		
-		log("Questa applicazione decodificherà ed esporterà i dati della stazione");
+		log("SERVER EsportaRilevazioni - Questa applicazione decodificherà ed esporterà i dati della stazione");
 		String richiesta = read("Digitare:\n"
 				+ "ENTER oppure 1 per caricare le impostazioni di default (Host remoto www.itisvallauri.net)\n"
 				+ "2 per lavorare in localhost\n"
@@ -86,14 +86,14 @@ public class EsportaRilevazioni {
 						return;
 					}
 					default:{
-						log("Comando inserito errato...\n\n");
+						log("SERVER EsportaRilevazioni - Comando inserito errato...\n\n");
 					}
 					}
 				}while(!end);
 				break;
 			}
 			default:{
-				log("Comando inserito errato...\n\n");
+				log("SERVER EsportaRilevazioni - Comando inserito errato...\n\n");
 			}
 			}
 		}while(!terminate);	
@@ -109,7 +109,7 @@ public class EsportaRilevazioni {
 			if(richiesta.trim().equalsIgnoreCase("exit")) {
 				terminate = true;
 				executor.shutdown();
-				log("Richiesta di terminazione ricevuta con successo, l'applicazione completerà le operazioni in corso e poi si arresterà. Buona giornata!");
+				log("SERVER EsportaRilevazioni - Richiesta di terminazione ricevuta con successo, l'applicazione completerà le operazioni in corso e poi si arresterà. Buona giornata!");
 			}
 		}while(!terminate);
 		

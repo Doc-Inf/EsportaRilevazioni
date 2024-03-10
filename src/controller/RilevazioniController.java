@@ -25,14 +25,13 @@ import static view.AppLogger.*;
 
 public class RilevazioniController implements Runnable{
 	
-	private static final String DEFAULT_FILENAME = "./misurazioni/rilevazioni.txt";
 	private String hostname;
 	private int port;
 	private String projectDir;
 	private RilevazioniParserTXT parser;
 	private boolean https;
 	private boolean filterByData;
-	private String startDate;
+	private LocalDateTime startDate;
 	
 	public RilevazioniController(String hostname, int port, String projectDir, String fileRilevazioni) {
 		this.hostname = hostname;
@@ -48,40 +47,37 @@ public class RilevazioniController implements Runnable{
 				throw new RuntimeException("Porta non valida, al momento è supportato solo l'https (porta 443) e l'http (porta 80)");
 			}
 		}
-		
+		if(!filterByData) {
+			log("Rilevazioni controller - Controller Rilevazioni creato per il file: " + fileRilevazioni);
+		}
 	}
 	
-	public RilevazioniController(String hostname, int port, String projectDir, String fileRilevazioni, boolean filterByData) {
+	public RilevazioniController(String hostname, int port, String projectDir, String fileRilevazioni, LocalDateTime startDate) {
 		this(hostname,port,projectDir,fileRilevazioni);
-		this.filterByData = filterByData;
+		this.startDate = startDate;
+		this.filterByData = true;
+		log("Rilevazioni controller - Il controller Rilevazioni creato prevede un filtro con data iniziale da cui partire: " + startDate + " fornita in formato LocalDateTime");
+		
 	}
 	
 	public RilevazioniController(String hostname, int port, String projectDir, String fileRilevazioni, String startDate) {
 		this(hostname,port,projectDir,fileRilevazioni);
+		this.startDate = LocalDateTime.parse(startDate, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss") );		
 		this.filterByData = true;
-		this.startDate = startDate;
-	}
+		log("Rilevazioni controller - Il controller Rilevazioni creato prevede un filtro con data iniziale da cui partire:  " + startDate + " fornita in formato Stringa");
+	}	
 	
-	public RilevazioniController(String hostname, int port, String projectDir, boolean filterByData) {
-		this(hostname,port, projectDir, DEFAULT_FILENAME,filterByData);
-		this.hostname = hostname;		
-	}
-	
-	public RilevazioniController(String hostname, int port, String projectDir) {
-		this(hostname,port, projectDir, DEFAULT_FILENAME, true);
-		log("Creazione controller avviata");			
-	}
 	
 	@Override
 	public void run() {
-		log("Controller Rilevazioni in esecuzione...");		
+		log("Rilevazioni controller - Controller Rilevazioni in esecuzione...");		
 		List<Rilevazione> rilevazioni;
 		if(filterByData) {
 			if(startDate==null) {
 				LocalDateTime lastDate = getLastDate();				
 				rilevazioni = parser.parseFile(lastDate);
 			}else {
-				rilevazioni = parser.parseFile(LocalDateTime.parse( startDate, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+				rilevazioni = parser.parseFile(startDate);
 			}			
 		}else {
 			rilevazioni = parser.parseFile();
@@ -115,8 +111,9 @@ public class RilevazioniController implements Runnable{
 			}			
 			PrintWriter out = new PrintWriter(s.getOutputStream());
 			
-			new Thread(
+			Thread t = new Thread(
 					()->{
+						log("Rilevazioni Controller Response Listener - started");
 						try {
 							BufferedReader in = new BufferedReader(new InputStreamReader(s.getInputStream()));
 						
@@ -127,7 +124,7 @@ public class RilevazioniController implements Runnable{
 							while(!stop) {
 								line = in.readLine();
 								if(line!=null && !line.trim().equals("")) {
-									log("SERVER: " + line);
+									log("Rilevazioni Controller Response Listener - " + line);
 									if(line.matches("[Cc][Oo][Nn][Tt][Ee][Nn][Tt]-[Ll][Ee][Nn][Gg][Tt][Hh].*")) {
 										int sep = line.indexOf(':');
 										int numByte = Integer.parseInt( (line.trim()).substring(sep+2) );
@@ -157,13 +154,15 @@ public class RilevazioniController implements Runnable{
 									}
 								}
 							}
+							log("Rilevazioni Controller Response Listener - Thread Ended");
 							
 						} catch (IOException e) {
 							e.printStackTrace();
 						}
 				
-			}).start();
-			
+			});			
+			t.start();
+						
 			LocalDateTime dateTimeRequest = LocalDateTime.now();
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
 			
@@ -182,17 +181,29 @@ public class RilevazioniController implements Runnable{
 			
 			
 			StringBuilder lb = new StringBuilder();
-			lb.append("CLIENT: POST /" + projectDir + "/ws/insert.php HTTP/1.1\n");
-			lb.append("CLIENT: HOST: " + hostname + "\n");
-			lb.append("CLIENT: Content-Type: text/html; charset=utf-8\n");
-			lb.append("CLIENT: Cookie: DateTime=" + dateTimeRequest.format(formatter) + "\n");
-			lb.append("CLIENT: Auth: " + getAutenticationString(dateTimeRequest) + "\n");
+			lb.append("Rilevazioni Controller - Push dei dati al Server\n");
+			lb.append("Rilevazioni Controller - POST /" + projectDir + "/ws/insert.php HTTP/1.1\n");
+			lb.append("Rilevazioni Controller -  HOST: " + hostname + "\n");
+			lb.append("Rilevazioni Controller -  Content-Type: text/html; charset=utf-8\n");
+			lb.append("Rilevazioni Controller -  Cookie: DateTime=" + dateTimeRequest.format(formatter) + "\n");
+			lb.append("Rilevazioni Controller -  Auth: " + getAutenticationString(dateTimeRequest) + "\n");
 			//lb.append("CLIENT: Auth: d3NEb2NlbnRlOkAjTWV0ZW9yaXRlMjM=\n");
 			//lb.append("CLIENT: Authorization: Basic d3NEb2NlbnRlOkAjTWV0ZW9yaXRlMjM=\n");
-			lb.append("CLIENT: CONTENT-LENGTH: " + dati.length + "\n");
-			lb.append("CLIENT: Connection: close\n");
+			lb.append("Rilevazioni Controller -  CONTENT-LENGTH: " + dati.length + "\n");
+			lb.append("Rilevazioni Controller -  Connection: close\n");
 						
-			log(lb.toString());
+			boolean attesaUltimata = false;
+			
+			do {
+				try {
+					t.join();
+					attesaUltimata = true;
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}while(!attesaUltimata);
+			
+			log("Rilevazioni controller - " +lb.toString());
 			
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
@@ -210,10 +221,10 @@ public class RilevazioniController implements Runnable{
 				if(https) {
 					SSLSocketFactory sslsocketfactory = (SSLSocketFactory) SSLSocketFactory.getDefault();
 					s = (SSLSocket) sslsocketfactory.createSocket(hostname, port);
-					log("Creato un ssl socket");
+					log("Rilevazioni controller - Creato un ssl socket");
 				}else {
 					s = new Socket(hostname,port);
-					log("Creato un socket normale");
+					log("Rilevazioni controller - Creato un socket normale");
 				}	
 				
 				BufferedReader in = new BufferedReader(new InputStreamReader(s.getInputStream()));				
@@ -223,7 +234,7 @@ public class RilevazioniController implements Runnable{
 				Object condition = new Object();
 				StringBuilder result = new StringBuilder();
 				Semaforo dataOttenuta = new Semaforo();
-				log("ricerca data ultima rilevazione iniziata");
+				log("Rilevazioni controller - ricerca data ultima rilevazione iniziata");
 				new Thread(()->{
 					try {
 						log("in attesa di risposta...");
@@ -282,7 +293,7 @@ public class RilevazioniController implements Runnable{
 				out.println("Connection: close");
 				out.println();
 				out.flush();
-				log("richiesta inviata...");
+				log("Rilevazioni Controller - richiesta inviata...");
 				while(!dataOttenuta.isDone()) {
 					synchronized(condition) {
 						try {
@@ -294,10 +305,10 @@ public class RilevazioniController implements Runnable{
 				}
 				log("Risposta: " + sb.toString());
 				try {
-					log("DATA DENTRO RESULT: " + result);
+					log("Rilevazioni Controller - DATA DENTRO RESULT: " + result);
 					lastDate = LocalDateTime.parse(result.toString(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-					log("LAST DATE: " + lastDate);
-					log("Data ultima modifica: \n" + lastDate.toString());	
+					log("Rilevazioni Controller - LAST DATE: " + lastDate);
+					log("Rilevazioni Controller - Data ultima modifica: \n" + lastDate.toString());	
 				}catch(Exception e) {
 					return null;
 				}

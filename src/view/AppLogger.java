@@ -51,4 +51,8 @@ public class AppLogger {
 		}
 		return Integer.parseInt(result);
 	}
+	
+	public static void logError(String message) {
+		
+	}
 }

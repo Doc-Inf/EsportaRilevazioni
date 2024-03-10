@@ -32,11 +32,13 @@ public class DecodeAndExport implements Runnable{
 		this.port = port;
 		this.projectDir = projectDir;
 		this.dirRilevazioni = dirRilevazioni;
+		log("Decode and Export Thread - Thread creato, ma non ancora in esecuzione");
 	}
 	
 	
 	@Override
 	public void run() {
+		log("Decode and Export Thread - Thread in esecuzione ");
 		LocalDateTime lastDate = null;
 		switch(port) {
 		case 443:{
@@ -53,7 +55,7 @@ public class DecodeAndExport implements Runnable{
 				
 		}
 		if(dirRilevazioni !=null) {
-			log("La directory con le rilevazioni è " + dirRilevazioni);
+			log("Decode and Export Thread - La directory con le rilevazioni è " + dirRilevazioni);
 			if( lastDate != null) {
 				int yearLastRilevazione = lastDate.getYear();
 				int monthLastRilevazione = lastDate.getMonthValue();
@@ -62,28 +64,94 @@ public class DecodeAndExport implements Runnable{
 				int currentMonth = now.getMonthValue();
 				
 				for(int i=yearLastRilevazione; i<=currentYear; ++i) {
-					for(int  j=monthLastRilevazione; j<=currentMonth; ++j) {
-						String month;
-						if(j<10) {
-							month = "0" + j;
-						}else {
-							month = "" + j;
+					if(yearLastRilevazione==currentYear) {
+						for(int  j=monthLastRilevazione; j<=currentMonth; ++j) {
+							String month;
+							if(j<10) {
+								month = "0" + j;
+							}else {
+								month = "" + j;
+							}
+							String wlkFilePath = dirRilevazioni + "/" + i + "-" + month + ".wlk";
+							String decodedFilename = i + "-" + month + ".txt";
+							WDAT5_Decoder decoder = new WDAT5_Decoder();
+							decoder.decode(wlkFilePath,decodedFilename);
+							Thread t = new Thread( new RilevazioniController(hostname,port,projectDir,decodedFilename,lastDate) );
+							t.start();
+							boolean attesaUltimata = false;
+							do {
+								try {
+									t.join();
+									attesaUltimata = true;
+								} catch (InterruptedException e) {
+									e.printStackTrace();
+								}
+							}while(!attesaUltimata);
+							log("Decode and Export Thread - Attesa Thread Rilevazioni Controller per il file " + decodedFilename + " ultimata");
 						}
-						String wlkFilePath = dirRilevazioni + "/" + i + "-" + month + ".wlk";
-						String decodedFilename = i + "-" + month + ".txt";
-						WDAT5_Decoder decoder = new WDAT5_Decoder();
-						decoder.decode(wlkFilePath,decodedFilename);
-						new Thread( new RilevazioniController(hostname,port,projectDir,decodedFilename,true) ).start();
+					}else {
+						if(i < currentYear) {
+							for(int  j=monthLastRilevazione; j<=12; ++j) {
+								String month;
+								if(j<10) {
+									month = "0" + j;
+								}else {
+									month = "" + j;
+								}
+								String wlkFilePath = dirRilevazioni + "/" + i + "-" + month + ".wlk";
+								String decodedFilename = i + "-" + month + ".txt";
+								WDAT5_Decoder decoder = new WDAT5_Decoder();
+								decoder.decode(wlkFilePath,decodedFilename);
+								Thread t = new Thread( new RilevazioniController(hostname,port,projectDir,decodedFilename,lastDate) );
+								t.start();
+								boolean attesaUltimata = false;
+								do {
+									try {
+										t.join();
+										attesaUltimata = true;
+									} catch (InterruptedException e) {
+										e.printStackTrace();
+									}
+								}while(!attesaUltimata);
+								log("Decode and Export Thread - Attesa Thread Rilevazioni Controller per il file " + decodedFilename + " ultimata");
+							}
+						}else {
+							for(int  j=1; j<=currentMonth; ++j) {
+								String month;
+								if(j<10) {
+									month = "0" + j;
+								}else {
+									month = "" + j;
+								}
+								String wlkFilePath = dirRilevazioni + "/" + i + "-" + month + ".wlk";
+								String decodedFilename = i + "-" + month + ".txt";
+								WDAT5_Decoder decoder = new WDAT5_Decoder();
+								decoder.decode(wlkFilePath,decodedFilename);
+								Thread t = new Thread( new RilevazioniController(hostname,port,projectDir,decodedFilename,lastDate) );
+								t.start();
+								boolean attesaUltimata = false;
+								do {
+									try {
+										t.join();
+										attesaUltimata = true;
+									} catch (InterruptedException e) {
+										e.printStackTrace();
+									}
+								}while(!attesaUltimata);
+								log("Decode and Export Thread - Attesa Thread Rilevazioni Controller per il file " + decodedFilename + " ultimata");
+							}
+						}
 					}
+					
 				}
 			}else {
 				Path dir = Paths.get(dirRilevazioni);
 				if(!Files.exists(dir)) {
 					if(Files.notExists(dir)) {
-						log("La directory specificata non esiste");
+						log("Decode and Export Thread - La directory specificata non esiste");
 						throw new RuntimeException("La directory specificata non esiste");
 					}else {
-						log("La directory specificata non è accessibile");
+						log("Decode and Export Thread - La directory specificata non è accessibile");
 						throw new RuntimeException("La directory specificata non è accessibile");
 					}
 				}
@@ -96,10 +164,10 @@ public class DecodeAndExport implements Runnable{
 						}
 						return false;
 					}).toList();		
-					log("Lista file wlk trovati:");
-					fileWLK.forEach(s->log(s));
+					log("Decode and Export Thread - Lista file wlk trovati:");
+					fileWLK.forEach(s->log("Decode and Export Thread - " + s));
 					
-					log("Numero di file wlk trovati nella directory: " + fileWLK.size());
+					log("Decode and Export Thread - Numero di file wlk trovati nella directory: " + fileWLK.size());
 					for(int i=0; i<fileWLK.size(); ++i) {
 						String date = fileWLK.get(i).split("\\.")[0];
 						int year = Integer.parseInt( date.split("-")[0] );
@@ -109,10 +177,19 @@ public class DecodeAndExport implements Runnable{
 						String decodedFilename = year + "-" + month + ".txt";
 						WDAT5_Decoder decoder = new WDAT5_Decoder();
 						decoder.decode(wlkFilePath,decodedFilename);
-						new Thread( new RilevazioniController(hostname,port,projectDir,decodedFilename,false) ).start();
-					}
-					
-					
+						Thread t = new Thread( new RilevazioniController(hostname,port,projectDir,decodedFilename) );
+						t.start();
+						boolean attesaUltimata = false;
+						do {
+							try {
+								t.join();
+								attesaUltimata = true;
+							} catch (InterruptedException e) {
+								e.printStackTrace();
+							}
+						}while(!attesaUltimata);
+						log("Decode and Export Thread - Attesa Thread Rilevazioni Controlloer " + i + " ultimata");
+					}					
 					
 				} catch (IOException e) {
 					e.printStackTrace();
@@ -151,10 +228,10 @@ public class DecodeAndExport implements Runnable{
 				if(https) {
 					SSLSocketFactory sslsocketfactory = (SSLSocketFactory) SSLSocketFactory.getDefault();
 					s = (SSLSocket) sslsocketfactory.createSocket(hostname, port);
-					log("Creato un ssl socket");
+					log("Decode and Export Thread - Get Last Date: Creato un ssl socket");
 				}else {
 					s = new Socket(hostname,port);
-					log("Creato un socket normale");
+					log("Decode and Export Thread - Get Last Date: Creato un socket normale");
 				}	
 				
 				BufferedReader in = new BufferedReader(new InputStreamReader(s.getInputStream()));				
@@ -164,10 +241,10 @@ public class DecodeAndExport implements Runnable{
 				Object condition = new Object();
 				StringBuilder result = new StringBuilder();
 				Semaforo dataOttenuta = new Semaforo();
-				log("ricerca data ultima rilevazione iniziata");
+				log("Decode and Export Thread - ricerca data ultima rilevazione iniziata");
 				new Thread(()->{
 					try {
-						log("in attesa di risposta...");
+						log("Decode and Export -> ListenerThread - in attesa di risposta...");
 						boolean done = false;
 						int status = 0;
 						String line = null;
@@ -198,7 +275,7 @@ public class DecodeAndExport implements Runnable{
 										}
 																				
 									}else {		
-										log("Data letta: " + result.toString());										
+										log("Decode and Export -> ListenerThread - Data letta: " + result.toString());										
 										sb.append("\n");
 										++status;
 										done=true;
@@ -223,7 +300,7 @@ public class DecodeAndExport implements Runnable{
 				out.println("Connection: close");
 				out.println();
 				out.flush();
-				log("richiesta inviata...");
+				log("Decode and Export Thread - richiesta inviata...");
 				while(!dataOttenuta.isDone()) {
 					synchronized(condition) {
 						try {
@@ -233,12 +310,11 @@ public class DecodeAndExport implements Runnable{
 						}
 					}
 				}
-				log("Risposta: " + sb.toString());
+				log("Decode and Export Thread - Risposta: " + sb.toString());
 				try {
-					log("DATA DENTRO RESULT: " + result);
+					//log("Decode and Export Thread - DATA DENTRO RESULT: " + result);
 					lastDate = LocalDateTime.parse(result.toString(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-					log("LAST DATE: " + lastDate);
-					log("Data ultima modifica: \n" + lastDate.toString());	
+					log("Decode and Export Thread - Data ultima modifica: " + lastDate.toString());	
 				}catch(Exception e) {
 					return null;
 				}
