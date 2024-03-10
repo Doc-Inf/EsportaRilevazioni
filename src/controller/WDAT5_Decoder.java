@@ -171,8 +171,6 @@ public class WDAT5_Decoder {
 			println("Anno: " + year + " Mese: " + month);
 			boolean headerPrinted = false;
 			YearMonth yearMonthObject = YearMonth.of(year, month);
-			//int[] dayInMonth = {31,28,31,30,31,30,31,31,30,31,30,31};
-			//int monthDays = dayInMonth[((int)month)-1];
 			int monthDays = yearMonthObject.lengthOfMonth();
 			for(int day=1; day<monthDays+1; ++day) {
 				int i = 20 + (day * 6); 
@@ -216,7 +214,7 @@ public class WDAT5_Decoder {
 				}
 				
 			}	
-			saveData(year + "-" + month + "_Dati_Originali.txt");
+			saveData(year + "-" + month + "_Dati_Originali.txt", destinationFilename);
 			
 		} catch (FileNotFoundException e) {
 			log("WDAT5_Decoder decode method Error - File not found: " + filename );
@@ -259,17 +257,157 @@ public class WDAT5_Decoder {
 		}
 	}
 	
-	void saveData(String filename) {
-		try (PrintWriter out = new PrintWriter(new FileWriter(DIR_DATI_ORIGINALI + "/" + filename))){
+	void saveData(String filenameDatiOriginali, String filenameDatiParser) {
+		try (PrintWriter outDebugger = new PrintWriter(new FileWriter(DIR_DATI_ORIGINALI + "/" + filenameDatiOriginali)); PrintWriter out = new PrintWriter(new FileWriter(DIR_FILE_DECODIFICATI + "/" + filenameDatiParser,true))){
 			for(int i=0; i<lineePerDebugger.size(); ++i) {
-				out.println(lineePerDebugger.get(i));
+				outDebugger.println(lineePerDebugger.get(i));
 			}
-			out.println("");
+			outDebugger.println("");
+			for(int i=0; i<lineePerParser.size(); ++i) {
+				out.println(lineePerParser.get(i));
+			}
 		}catch(IOException e) {
 			log("WDAT5_Decoder saveData method Error - " + e.getMessage() );
 			e.printStackTrace();
 		}
 	
+	}
+	
+	private void convertAndSaveData(String filename, boolean printHeader) {
+		RecordInfo measure = dataSurvey.get(dataSurvey.size()-1);
+		LocalDateTime measureDate = (LocalDateTime) measure.getValue();
+		if(printHeader) {
+			lineePerParser.add( "Formato file originario: WDAT5 ");
+			lineePerParser.add( "Data conversione: " + LocalDateTime.now().format( DateTimeFormatter.ofPattern("dd/MM/yy HH:mm") ) );
+		}		
+		StringBuilder sb = new StringBuilder();
+		sb.append( measureDate.format(DateTimeFormatter.ofPattern("dd/MM/yy")) + "\t");
+		sb.append( measureDate.format(DateTimeFormatter.ofPattern("HH:mm")) + "\t");
+			
+		NumberFormat nf = NumberFormat.getNumberInstance(Locale.US);
+		DecimalFormat decimalFormatOne = (DecimalFormat) nf;
+		decimalFormatOne.applyPattern("0.0");
+		NumberFormat nf2 = NumberFormat.getNumberInstance(Locale.US);
+		DecimalFormat decimalFormatTwo = (DecimalFormat) nf2;
+		decimalFormatTwo.applyPattern("0.00");
+			
+		// outsideTemp
+		sb.append( decimalFormatOne.format( dataSurvey.get(5).getValue() ) + "\t");
+		// hiOutsideTemp
+		sb.append( decimalFormatOne.format( dataSurvey.get(6).getValue() ) + "\t");
+		// lowOutsideTemp
+		sb.append( decimalFormatOne.format( dataSurvey.get(7).getValue() ) + "\t");
+		// outsideHum
+		sb.append( Math.round( (double) dataSurvey.get(10).getValue() ) + "\t");
+		// Dev Pt. 
+		// TO DO
+		sb.append( "0.0\t");
+		// Wind Speed
+		sb.append( decimalFormatOne.format( (double)dataSurvey.get(14).getValue() * 3.6 ) + "\t");
+		// Wind Dir
+		sb.append( convertWindDirection( (double)dataSurvey.get(16).getValue() )  + "\t");
+		// Wind Run
+		sb.append( decimalFormatTwo.format( (double)dataSurvey.get(14).getValue() * 1.8 ) + "\t");
+		// Hi Speed
+		sb.append( decimalFormatOne.format( (double)dataSurvey.get(15).getValue() * 3.6 ) + "\t");
+		// Hi Dir
+		sb.append( convertWindDirection( (double)dataSurvey.get(17).getValue() )  + "\t");
+		// Wind Chill
+		double windChill = 13.12 + 0.6215 * (double)dataSurvey.get(5).getValue() - 11.37 * Math.pow((double)dataSurvey.get(14).getValue() * 3.6, 0.16) + 0.3965 * (double)dataSurvey.get(5).getValue() * Math.pow((double)dataSurvey.get(14).getValue() * 3.6, 0.16);     
+		sb.append( decimalFormatOne.format( windChill ) + "\t");
+		// Heat Index
+		// TO DO
+		sb.append( "0.0\t");
+		// THW Index
+		// TO DO
+		sb.append( "0.0\t");
+		// Bar
+		sb.append( decimalFormatOne.format( dataSurvey.get(9).getValue() ) + "\t");
+		// Rain
+		sb.append( decimalFormatTwo.format( dataSurvey.get(12).getValue() ) + "\t");
+		// Rain Rate
+		sb.append( decimalFormatOne.format( dataSurvey.get(13).getValue() ) + "\t");
+		// Heat D-D
+		// TO DO
+		sb.append( "0.000\t");
+		// Cool D-D
+		// TO DO
+		sb.append( "0.000\t");
+		// In Temp
+		sb.append( decimalFormatOne.format( dataSurvey.get(8).getValue() ) + "\t");
+		// In Hum
+		sb.append( Math.round( (double) dataSurvey.get(11).getValue() ) + "\t");
+		// In Dev
+		// TO DO
+		sb.append( "0.0\t");
+		// In Heat
+		// TO DO
+		sb.append( "0.0\t");
+		// In EMC
+		// TO DO
+		sb.append( "0.00\t");
+		// In Air Density
+		// TO DO
+		sb.append( "0.0000\t");
+		// Temp 2nd
+		sb.append( "---\t");
+		// Temp 3rd
+		sb.append( "---\t");
+		// Hum 2nd
+		sb.append( "---\t");
+		// Hum 3rd
+		sb.append( "---\t");
+		// Wind Samp
+		sb.append( Math.round( (int) dataSurvey.get(18).getValue() ) + "\t");
+		// Wind Tx
+		sb.append( "1\t");
+		// ISS Recept
+		sb.append( "100.0\t");
+		// Arc. Int
+		sb.append( "30\t");
+			 
+		/*
+		 * Ordine dei dati da riprodurre in output secondo il salvataggio dell'app weather link
+		 * 
+		 Date
+		 Time
+		 TempOut
+		 HiTemp
+		 LowTemp
+		 OutHum
+		 Dev Pt.
+		 Wind Speed
+		 Wind Dir
+		 Wind Run
+		 Hi Speed
+		 Hi Dir
+		 Wind Chill
+		 Heat Index
+		 THW Index
+		 Bar
+		 Rain
+		 Rain Rate
+		 Heat D-D
+		 Cool D-D
+		 In Temp
+		 In Hum
+		 In Dev
+		 In Heat
+		 In EMC
+		 In Air Density
+		 Temp 2nd
+		 Temp 3rd
+		 Hum 2nd
+		 Hum 3rd
+		 Wind Samp
+		 Wind Tx
+		 ISS Recept
+		 Arc. Int
+		  
+		 */			
+			
+		lineePerParser.add(sb.toString());
+		
 	}
 /*	
 	void saveData(String filename) {
@@ -284,7 +422,7 @@ public class WDAT5_Decoder {
 			e.printStackTrace();
 		}
 	
-	}*/
+	}
 	
 	private void convertAndSaveData(String filename, boolean printHeader) {
 		try(PrintWriter out = new PrintWriter(new FileWriter(DIR_FILE_DECODIFICATI + "/" + filename,true))){
@@ -303,9 +441,7 @@ public class WDAT5_Decoder {
 			NumberFormat nf2 = NumberFormat.getNumberInstance(Locale.US);
 			DecimalFormat decimalFormatTwo = (DecimalFormat) nf2;
 			decimalFormatTwo.applyPattern("0.00");
-			/*DecimalFormat decimalFormatOne = new DecimalFormat("0.0");
-			DecimalFormat decimalFormatTwo = new DecimalFormat("0.00");*/
-			
+						
 			// outsideTemp
 			out.print( decimalFormatOne.format( dataSurvey.get(5).getValue() ) + "\t");
 			// hiOutsideTemp
@@ -419,7 +555,7 @@ public class WDAT5_Decoder {
 			 ISS Recept
 			 Arc. Int
 			  
-			 */
+			 //// DEVI CHIUDERE IL COMMENTO QUI
 			
 			
 			out.println("");
@@ -427,7 +563,7 @@ public class WDAT5_Decoder {
 			log("WDAT5_Decoder convertAndSaveData method Error - " + e.getMessage() );
 			e.printStackTrace();
 		}
-	}
+	}*/
 	
 	private byte[] extract(byte[] array, int start, int end) {
 		int size = end - start;
