@@ -141,12 +141,22 @@ public class WDAT5_Decoder {
 		
 		if( Files.exists(Paths.get(DIR_FILE_DECODIFICATI + "/" + destinationFilename)) ) {
 			try {
-				Files.delete(Paths.get(destinationFilename));
+				Files.delete(Paths.get(DIR_FILE_DECODIFICATI + "/" + destinationFilename));
 			} catch (IOException e) {
 				log("WDAT5_Decoder decode method Error - " + e.getMessage() );
 				e.printStackTrace();
 			}
 		}
+		
+		if( Files.exists(Paths.get(DIR_DATI_ORIGINALI + "/" + destinationFilename)) ) {
+			try {
+				Files.delete(Paths.get(DIR_DATI_ORIGINALI + "/" + destinationFilename));
+			} catch (IOException e) {
+				log("WDAT5_Decoder decode method Error - " + e.getMessage() );
+				e.printStackTrace();
+			}
+		}
+		
 		byte[] dataBuffer = new byte[212];
 		
 		try (BufferedInputStream in = new BufferedInputStream( new FileInputStream(filename))){
@@ -192,7 +202,7 @@ public class WDAT5_Decoder {
 							dataSurvey.get(dataSurvey.size()-1).setValue( LocalDateTime.of(LocalDate.of(year, month, day), LocalTime.ofSecondOfDay( 0 )));
 						}
 						
-						saveData(year + "-" + month + "_Dati_Originali.txt");
+						addDebugLine();						
 						
 						if(!headerPrinted) {
 							convertAndSaveData(destinationFilename,true);	
@@ -202,9 +212,11 @@ public class WDAT5_Decoder {
 						}						
 						dataSurvey.remove(dataSurvey.size()-1);
 					}
+					
 				}
 				
-			}		
+			}	
+			saveData(year + "-" + month + "_Dati_Originali.txt");
 			
 		} catch (FileNotFoundException e) {
 			log("WDAT5_Decoder decode method Error - File not found: " + filename );
@@ -240,10 +252,26 @@ public class WDAT5_Decoder {
 		}
 	}
 	
-	void addDebugLine() {
-		
+	void addDebugLine() {		
+		for(int k=0; k<dataSurvey.size(); ++k) {
+			RecordInfo measure = dataSurvey.get(k);
+			lineePerDebugger.add( measure.getType() + "\t" + measure.getName() + ":\t" + measure.getValue() );
+		}
 	}
 	
+	void saveData(String filename) {
+		try (PrintWriter out = new PrintWriter(new FileWriter(DIR_DATI_ORIGINALI + "/" + filename))){
+			for(int i=0; i<lineePerDebugger.size(); ++i) {
+				out.println(lineePerDebugger.get(i));
+			}
+			out.println("");
+		}catch(IOException e) {
+			log("WDAT5_Decoder saveData method Error - " + e.getMessage() );
+			e.printStackTrace();
+		}
+	
+	}
+/*	
 	void saveData(String filename) {
 		try (PrintWriter out = new PrintWriter(new FileWriter(DIR_DATI_ORIGINALI + "/" + filename,true))){
 			for(int k=0; k<dataSurvey.size(); ++k) {
@@ -256,7 +284,7 @@ public class WDAT5_Decoder {
 			e.printStackTrace();
 		}
 	
-	}
+	}*/
 	
 	private void convertAndSaveData(String filename, boolean printHeader) {
 		try(PrintWriter out = new PrintWriter(new FileWriter(DIR_FILE_DECODIFICATI + "/" + filename,true))){
