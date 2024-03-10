@@ -44,6 +44,7 @@ public class RilevazioniController implements Runnable{
 			if(port == 80) {
 				this.https = false;
 			}else {
+				log("Rilevazioni Controller Constructor Error - Porta inserita non valida" );
 				throw new RuntimeException("Porta non valida, al momento è supportato solo l'https (porta 443) e l'http (porta 80)");
 			}
 		}
@@ -157,6 +158,7 @@ public class RilevazioniController implements Runnable{
 							log("Rilevazioni Controller Response Listener - Thread Ended");
 							
 						} catch (IOException e) {
+							log("Rilevazioni Controller Thread Response Listener method Error - " + e.getMessage() );
 							e.printStackTrace();
 						}
 				
@@ -199,6 +201,7 @@ public class RilevazioniController implements Runnable{
 					t.join();
 					attesaUltimata = true;
 				} catch (InterruptedException e) {
+					log("Rilevazioni Controller pushData method Error - Attesa del listener interrotta\n" + e.getMessage() );
 					e.printStackTrace();
 				}
 			}while(!attesaUltimata);
@@ -206,8 +209,10 @@ public class RilevazioniController implements Runnable{
 			log("Rilevazioni controller - " +lb.toString());
 			
 		} catch (UnknownHostException e) {
+			log("Rilevazioni Controller pushData method Error - UnknownHostException\n" + e.getMessage() );
 			e.printStackTrace();
 		} catch (IOException e) {
+			log("Rilevazioni Controller pushData method Error - " + e.getMessage() );
 			e.printStackTrace();
 		} 		
 		
@@ -284,6 +289,7 @@ public class RilevazioniController implements Runnable{
 							condition.notify();
 						}
 					} catch (IOException e) {
+						log("Rilevazioni Controller getLastDate method Error - " + e.getMessage() );
 						e.printStackTrace();
 					}
 				}).start();				
@@ -299,6 +305,7 @@ public class RilevazioniController implements Runnable{
 						try {
 							condition.wait();
 						} catch (InterruptedException e) {
+							log("Rilevazioni Controller getLastDate method Error - " + e.getMessage() );
 							e.printStackTrace();
 						}
 					}
@@ -310,13 +317,16 @@ public class RilevazioniController implements Runnable{
 					log("Rilevazioni Controller - LAST DATE: " + lastDate);
 					log("Rilevazioni Controller - Data ultima modifica: \n" + lastDate.toString());	
 				}catch(Exception e) {
+					log("Rilevazioni Controller getLastDate method Error - " + e.getMessage() );
 					return null;
 				}
 			
 			
 		} catch (UnknownHostException e) {
+			log("Rilevazioni Controller getLastDate method Error - " + e.getMessage() );
 			e.printStackTrace();
 		} catch (IOException e) {
+			log("Rilevazioni Controller getLastDate method Error - " + e.getMessage() );
 			e.printStackTrace();
 		}	
 		
@@ -358,6 +368,7 @@ public class RilevazioniController implements Runnable{
 			byte[] hash = digest.digest(pw.getBytes(StandardCharsets.UTF_8));
 			result = Base64.getEncoder().encodeToString(hash);
 		} catch (IOException | NoSuchAlgorithmException e) {
+			log("Rilevazioni Controller getAutenticationString method Error - " + e.getMessage() );
 			e.printStackTrace();
 		}
 		return result;

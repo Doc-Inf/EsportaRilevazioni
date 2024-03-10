@@ -17,6 +17,7 @@ import static view.AppLogger.*;
 public class RilevazioniParserTXT implements RilevazioniParser{
 
 	private String filename;
+	private static final String DIR_FILE_DECODIFICATI = "FileWDAT_Convertiti";
 		
 	public RilevazioniParserTXT(String filename) {
 		this.filename = filename; 
@@ -28,7 +29,7 @@ public class RilevazioniParserTXT implements RilevazioniParser{
 		List<Rilevazione> rilevazioni = new ArrayList<>();
 		String line = null;
 		int lineNumber = 0;
-		try(BufferedReader in = new BufferedReader( new FileReader(filename) );) {
+		try(BufferedReader in = new BufferedReader( new FileReader(DIR_FILE_DECODIFICATI + "/" + filename) );) {
 			while( (line=in.readLine()) != null ) {
 				if(lineNumber >= 2) {
 					rilevazioni.add(parseRilevazione(line));
@@ -36,6 +37,7 @@ public class RilevazioniParserTXT implements RilevazioniParser{
 				++lineNumber;
 			}
 		} catch (IOException e) {
+			log("RilevazioniParserTXT parseFile method Error - " + e.getMessage() );
 			e.printStackTrace();
 		} 
 		log("Parsing terminato");
@@ -49,7 +51,7 @@ public class RilevazioniParserTXT implements RilevazioniParser{
 		String line = null;
 		int lineNumber = 0;
 		Rilevazione currentRilevazione = null;
-		try(BufferedReader in = new BufferedReader( new FileReader(filename) );) {
+		try(BufferedReader in = new BufferedReader( new FileReader(DIR_FILE_DECODIFICATI + "/" + filename) );) {
 			while( (line=in.readLine()) != null ) {
 				//System.out.println("Linea letta: " + line + " Numero rilevazioni lette: " + lineNumber );
 				if(lineNumber >= 2) {
@@ -61,6 +63,7 @@ public class RilevazioniParserTXT implements RilevazioniParser{
 				++lineNumber;
 			}
 		} catch (IOException e) {
+			log("RilevazioniParserTXT parseFile(startDate) method Error - " + e.getMessage() );
 			e.printStackTrace();
 		}
 		log("Parsing terminato");

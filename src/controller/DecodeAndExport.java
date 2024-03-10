@@ -50,6 +50,7 @@ public class DecodeAndExport implements Runnable{
 			break;
 		}
 		default:{
+			log("Decode and Export Constructor Error - Porta specificata non riconosciuta" );
 			throw new RuntimeException("Porta specificata non riconosciuta, sono valide solo la 443 e la porta 80");
 		}
 				
@@ -84,6 +85,7 @@ public class DecodeAndExport implements Runnable{
 									t.join();
 									attesaUltimata = true;
 								} catch (InterruptedException e) {
+									log("Decode and Export Run method Error - " + e.getMessage() );
 									e.printStackTrace();
 								}
 							}while(!attesaUltimata);
@@ -110,6 +112,7 @@ public class DecodeAndExport implements Runnable{
 										t.join();
 										attesaUltimata = true;
 									} catch (InterruptedException e) {
+										log("Decode and Export Run method Error - " + e.getMessage() );
 										e.printStackTrace();
 									}
 								}while(!attesaUltimata);
@@ -135,6 +138,7 @@ public class DecodeAndExport implements Runnable{
 										t.join();
 										attesaUltimata = true;
 									} catch (InterruptedException e) {
+										log("Decode and Export Run method Error - " + e.getMessage() );
 										e.printStackTrace();
 									}
 								}while(!attesaUltimata);
@@ -185,6 +189,7 @@ public class DecodeAndExport implements Runnable{
 								t.join();
 								attesaUltimata = true;
 							} catch (InterruptedException e) {
+								log("Decode and Export Run method Error - " + e.getMessage() );
 								e.printStackTrace();
 							}
 						}while(!attesaUltimata);
@@ -192,6 +197,7 @@ public class DecodeAndExport implements Runnable{
 					}					
 					
 				} catch (IOException e) {
+					log("Decode and Export Run method Error - " + e.getMessage() );
 					e.printStackTrace();
 				}
 				
@@ -291,6 +297,7 @@ public class DecodeAndExport implements Runnable{
 							condition.notify();
 						}
 					} catch (IOException e) {
+						log("Decode and Export getLastDate method Error - " + e.getMessage() );
 						e.printStackTrace();
 					}
 				}).start();				
@@ -306,6 +313,7 @@ public class DecodeAndExport implements Runnable{
 						try {
 							condition.wait();
 						} catch (InterruptedException e) {
+							log("Decode and Export getLastDate method Error - " + e.getMessage() );
 							e.printStackTrace();
 						}
 					}
@@ -316,6 +324,7 @@ public class DecodeAndExport implements Runnable{
 					lastDate = LocalDateTime.parse(result.toString(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
 					log("Decode and Export Thread - Data ultima modifica: " + lastDate.toString());	
 				}catch(Exception e) {
+					log("Decode and Export getLastDate method Error - " + e.getMessage() );
 					return null;
 				}
 			

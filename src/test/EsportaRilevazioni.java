@@ -162,6 +162,7 @@ public class EsportaRilevazioni {
 				}
 			}
 		} catch (IOException e) {
+			log("Esporta Rilevazioni load Remote Config Error - " + e.getMessage());
 			e.printStackTrace();
 		}
 	}
@@ -208,6 +209,7 @@ public class EsportaRilevazioni {
 				}
 			}
 		} catch (IOException e) {
+			log("Esporta Rilevazioni load Localhost Config Error - " + e.getMessage());
 			e.printStackTrace();
 		}					
 	}

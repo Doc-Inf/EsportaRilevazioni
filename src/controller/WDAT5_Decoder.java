@@ -8,12 +8,14 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.ByteBuffer;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,10 +29,20 @@ import model.RecordInfo;
 
 public class WDAT5_Decoder {	
 	
+	private static final String DIR_FILE_DECODIFICATI = "FileWDAT_Convertiti";
+	private static final String DIR_DATI_ORIGINALI = "DatiOriginali";
 	private List<RecordInfo> dataSurvey;
+	private boolean debugMode;
+	
+	private List<String> lineePerParser;
+	private List<String> lineePerDebugger;
 	
 	public WDAT5_Decoder() {
+		debugMode = true;
 		dataSurvey = new ArrayList<>();
+		lineePerParser = new ArrayList<>();
+		lineePerDebugger = new ArrayList<>();
+		
 		dataSurvey.add(new RecordInfo("signed char","dataType"));
 		dataSurvey.add(new RecordInfo("signed char","archiveInterval"));
 		dataSurvey.add(new RecordInfo("signed char","iconFlags"));
@@ -107,10 +119,31 @@ public class WDAT5_Decoder {
 		 *  Gli altri 4 byte tengono la posizione iniziale dei dati relativi a quel giorno
 		 *  Entrambe le dataSurveyrmazioni precedenti richiedono l'inversione dell'array di byte per essere lette 
 		 */
-		if( Files.exists(Paths.get(destinationFilename)) ) {
+		Path saveDir = Paths.get(DIR_FILE_DECODIFICATI);
+		if( Files.notExists(saveDir)) {
+			try {
+				Files.createDirectories(saveDir);
+			} catch (IOException e) {
+				log("WDAT5_Decoder decode method Error - " + e.getMessage() );
+				e.printStackTrace();
+			}
+		}
+		
+		Path saveDirOriginali = Paths.get(DIR_DATI_ORIGINALI);
+		if( Files.notExists(saveDirOriginali)) {
+			try {
+				Files.createDirectories(saveDirOriginali);
+			} catch (IOException e) {
+				log("WDAT5_Decoder decode method Error - " + e.getMessage() );
+				e.printStackTrace();
+			}
+		}
+		
+		if( Files.exists(Paths.get(DIR_FILE_DECODIFICATI + "/" + destinationFilename)) ) {
 			try {
 				Files.delete(Paths.get(destinationFilename));
 			} catch (IOException e) {
+				log("WDAT5_Decoder decode method Error - " + e.getMessage() );
 				e.printStackTrace();
 			}
 		}
@@ -127,9 +160,11 @@ public class WDAT5_Decoder {
 			month = Integer.parseInt(data.split("-")[1]);
 			println("Anno: " + year + " Mese: " + month);
 			boolean headerPrinted = false;
-			int[] dayInMonth = {31,28,31,30,31,30,31,31,30,31,30,31};
-			int monthDays = dayInMonth[((int)month)-1];
-			for(int day=1; day<monthDays; ++day) {
+			YearMonth yearMonthObject = YearMonth.of(year, month);
+			//int[] dayInMonth = {31,28,31,30,31,30,31,31,30,31,30,31};
+			//int monthDays = dayInMonth[((int)month)-1];
+			int monthDays = yearMonthObject.lengthOfMonth();
+			for(int day=1; day<monthDays+1; ++day) {
 				int i = 20 + (day * 6); 
 				int j = i + 6;
 				byte[] dayIndexByteArray = extract(dataBuffer, i, j);
@@ -154,7 +189,7 @@ public class WDAT5_Decoder {
 						if( (Integer)dataSurvey.get(4).getValue() < 1440) {
 							dataSurvey.get(dataSurvey.size()-1).setValue( LocalDateTime.of(LocalDate.of(year, month, day), LocalTime.ofSecondOfDay( Long.valueOf( (Integer)dataSurvey.get(4).getValue() * 60 ))));
 						}else {
-							dataSurvey.get(dataSurvey.size()-1).setValue( LocalDateTime.of(LocalDate.of(year, month, day+1), LocalTime.ofSecondOfDay( 0 )));
+							dataSurvey.get(dataSurvey.size()-1).setValue( LocalDateTime.of(LocalDate.of(year, month, day), LocalTime.ofSecondOfDay( 0 )));
 						}
 						
 						saveData(year + "-" + month + "_Dati_Originali.txt");
@@ -172,8 +207,9 @@ public class WDAT5_Decoder {
 			}		
 			
 		} catch (FileNotFoundException e) {
-			log("File not found: " + filename);
+			log("WDAT5_Decoder decode method Error - File not found: " + filename );
 		} catch (IOException e) {
+			log("WDAT5_Decoder decode method Error - " + e.getMessage() );
 			e.printStackTrace();
 		}
 	}
@@ -195,28 +231,35 @@ public class WDAT5_Decoder {
 	}
 	
 	private void br() {
-		System.out.println();
+		log("WDAT5_Decoder - \n" );		
 	}
 
 	private void println(Object o) {
-		System.out.println(o);
+		if(debugMode) {
+			log("WDAT5_Decoder - " + o);
+		}
+	}
+	
+	void addDebugLine() {
+		
 	}
 	
 	void saveData(String filename) {
-		try (PrintWriter out = new PrintWriter(new FileWriter(filename,true))){
+		try (PrintWriter out = new PrintWriter(new FileWriter(DIR_DATI_ORIGINALI + "/" + filename,true))){
 			for(int k=0; k<dataSurvey.size(); ++k) {
 				RecordInfo measure = dataSurvey.get(k);
 				out.println(measure.getType() + "\t" + measure.getName() + ":\t" + measure.getValue());
 			}
 			out.println("");
 		}catch(IOException e) {
+			log("WDAT5_Decoder saveData method Error - " + e.getMessage() );
 			e.printStackTrace();
 		}
 	
 	}
 	
 	private void convertAndSaveData(String filename, boolean printHeader) {
-		try(PrintWriter out = new PrintWriter(new FileWriter(filename,true))){
+		try(PrintWriter out = new PrintWriter(new FileWriter(DIR_FILE_DECODIFICATI + "/" + filename,true))){
 			RecordInfo measure = dataSurvey.get(dataSurvey.size()-1);
 			LocalDateTime measureDate = (LocalDateTime) measure.getValue();
 			if(printHeader) {
@@ -353,6 +396,7 @@ public class WDAT5_Decoder {
 			
 			out.println("");
 		}catch(IOException e) {
+			log("WDAT5_Decoder convertAndSaveData method Error - " + e.getMessage() );
 			e.printStackTrace();
 		}
 	}
