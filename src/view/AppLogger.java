@@ -5,6 +5,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class AppLogger {
 	
@@ -54,5 +57,14 @@ public class AppLogger {
 	
 	public static void logError(String message) {
 		
+	}
+	
+	public static void removeLog() {
+		Path log = Paths.get(debugFilename);
+		try {
+			Files.deleteIfExists(log);
+		} catch (IOException e) {
+			log(e.getMessage());
+		}		
 	}
 }

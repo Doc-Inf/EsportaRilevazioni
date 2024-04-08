@@ -102,6 +102,7 @@ public class RilevazioniController implements Runnable{
 		log(sb.toString());
 		byte[] dati = sb.toString().getBytes();
 		final Socket s;
+		String message = "";
 		
 		try{
 			if(https) {
@@ -115,6 +116,7 @@ public class RilevazioniController implements Runnable{
 			Thread t = new Thread(
 					()->{
 						log("Rilevazioni Controller Response Listener - started");
+						String innerMessage = "";
 						try {
 							BufferedReader in = new BufferedReader(new InputStreamReader(s.getInputStream()));
 						
@@ -158,9 +160,14 @@ public class RilevazioniController implements Runnable{
 							log("Rilevazioni Controller Response Listener - Thread Ended");
 							
 						} catch (IOException e) {
-							log("Rilevazioni Controller Thread Response Listener method Error - " + e.getMessage() );
+							innerMessage = e.getMessage();
 							e.printStackTrace();
-						}
+						} finally {
+							if(innerMessage!= null && !innerMessage.equals("")) {
+								log("Rilevazioni Controller Thread Response Listener method Exception : " + innerMessage);
+							}
+							innerMessage = "";
+						}	
 				
 			});			
 			t.start();
@@ -197,30 +204,42 @@ public class RilevazioniController implements Runnable{
 			boolean attesaUltimata = false;
 			
 			do {
+				message = "";
 				try {
 					t.join();
 					attesaUltimata = true;
 				} catch (InterruptedException e) {
-					log("Rilevazioni Controller pushData method Error - Attesa del listener interrotta\n" + e.getMessage() );
+					message = e.getMessage();
 					e.printStackTrace();
-				}
+				} finally {
+					if(message!= null && !message.equals("")) {
+						log("Rilevazioni Controller pushData method Error - Attesa del listener interrotta\n Exception : " + message);
+					}
+					message = "";
+				}	
 			}while(!attesaUltimata);
 			
 			log("Rilevazioni controller - " +lb.toString());
 			
 		} catch (UnknownHostException e) {
-			log("Rilevazioni Controller pushData method Error - UnknownHostException\n" + e.getMessage() );
+			message = "Rilevazioni Controller pushData method Error - UnknownHostException\n" + e.getMessage();
 			e.printStackTrace();
 		} catch (IOException e) {
-			log("Rilevazioni Controller pushData method Error - " + e.getMessage() );
+			message = "Rilevazioni Controller pushData method Error - " + e.getMessage();
 			e.printStackTrace();
-		} 		
+		} finally {
+			if(message!= null && !message.equals("")) {
+				log(message);
+			}
+			message = "";
+		}			
 		
 
 	}
 	
 	private LocalDateTime getLastDate() {
 		LocalDateTime lastDate = null;
+		String message = "";
 		try {	
 				Socket s;
 				if(https) {
@@ -241,11 +260,13 @@ public class RilevazioniController implements Runnable{
 				Semaforo dataOttenuta = new Semaforo();
 				log("Rilevazioni controller - ricerca data ultima rilevazione iniziata");
 				new Thread(()->{
+					String innerMessage = "";
 					try {
 						log("in attesa di risposta...");
 						boolean done = false;
 						int status = 0;
 						String line = null;
+						
 						while(!done) {
 							line = in.readLine();							
 							switch(status) {
@@ -289,9 +310,14 @@ public class RilevazioniController implements Runnable{
 							condition.notify();
 						}
 					} catch (IOException e) {
-						log("Rilevazioni Controller getLastDate method Error - " + e.getMessage() );
+						innerMessage = "Rilevazioni Controller getLastDate method Error - " + e.getMessage();
 						e.printStackTrace();
-					}
+					} finally {
+						if(innerMessage!= null && !innerMessage.equals("")) {
+							log(innerMessage);
+						}
+						innerMessage = "";
+					}	
 				}).start();				
 								
 				out.println("GET /" + projectDir + "/ws/getLastDate.php HTTP/1.1");
@@ -300,14 +326,22 @@ public class RilevazioniController implements Runnable{
 				out.println();
 				out.flush();
 				log("Rilevazioni Controller - richiesta inviata...");
+				
+				message = "";
+				
 				while(!dataOttenuta.isDone()) {
 					synchronized(condition) {
 						try {
 							condition.wait();
 						} catch (InterruptedException e) {
-							log("Rilevazioni Controller getLastDate method Error - " + e.getMessage() );
+							message = "Rilevazioni Controller getLastDate method Error - " + e.getMessage();
 							e.printStackTrace();
-						}
+						} finally {
+							if(message!= null && !message.equals("")) {
+								log(message);
+							}
+							message = "";
+						}	
 					}
 				}
 				log("Risposta: " + sb.toString());
@@ -317,17 +351,27 @@ public class RilevazioniController implements Runnable{
 					log("Rilevazioni Controller - LAST DATE: " + lastDate);
 					log("Rilevazioni Controller - Data ultima modifica: \n" + lastDate.toString());	
 				}catch(Exception e) {
-					log("Rilevazioni Controller getLastDate method Error - " + e.getMessage() );
+					message = "Rilevazioni Controller getLastDate method Error - " + e.getMessage();
 					return null;
-				}
+				}finally {
+					if(message!= null && !message.equals("")) {
+						log(message);
+					}
+					message = "";
+				}	
 			
 			
 		} catch (UnknownHostException e) {
-			log("Rilevazioni Controller getLastDate method Error - " + e.getMessage() );
+			message = "Rilevazioni Controller getLastDate method Error - " + e.getMessage();
 			e.printStackTrace();
 		} catch (IOException e) {
-			log("Rilevazioni Controller getLastDate method Error - " + e.getMessage() );
+			message = "Rilevazioni Controller getLastDate method Error - " + e.getMessage();
 			e.printStackTrace();
+		} finally {
+			if(message!= null && !message.equals("")) {
+				log(message);
+			}
+			message = "";
 		}	
 		
 		return lastDate;
@@ -335,6 +379,8 @@ public class RilevazioniController implements Runnable{
 	
 	private String getAutenticationString(LocalDateTime d) {
 		String result = null;
+		String message = "";
+		
 		try {
 			List<String> lines = Files.readAllLines(Paths.get("config.txt"));
 			String pw = null;
@@ -370,7 +416,12 @@ public class RilevazioniController implements Runnable{
 		} catch (IOException | NoSuchAlgorithmException e) {
 			log("Rilevazioni Controller getAutenticationString method Error - " + e.getMessage() );
 			e.printStackTrace();
-		}
+		}  finally {
+			if(message!= null && !message.equals("")) {
+				log(message);
+			}
+			message = "";
+		}	
 		return result;
 	}
 }

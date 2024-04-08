@@ -116,6 +116,7 @@ public class EsportaRilevazioni {
 	}
 	
 	private static void loadRemoteConfig() {
+		String message = "";
 		try {
 			List<String> lines = Files.readAllLines(Paths.get(configFilename));
 			int numInfo = 0;
@@ -162,13 +163,19 @@ public class EsportaRilevazioni {
 				}
 			}
 		} catch (IOException e) {
-			log("Esporta Rilevazioni load Remote Config Error - " + e.getMessage());
+			message = e.getMessage();
 			e.printStackTrace();
-		}
+		} finally {
+			if(message!= null && !message.equals("")) {
+				log("Esporta Rilevazioni Eccezione Load Remote Config: " + message);
+			}	
+			message = "";
+		}	
 	}
 
 	
 	private static void loadLocalhostConfig() {
+		String message = "";
 		hostname = "localhost";
 		int numInfo = 0;
 		String line = null;
@@ -209,8 +216,13 @@ public class EsportaRilevazioni {
 				}
 			}
 		} catch (IOException e) {
-			log("Esporta Rilevazioni load Localhost Config Error - " + e.getMessage());
+			message =  e.getMessage();
 			e.printStackTrace();
+		} finally {
+			if(message!= null && !message.equals("")) {
+				log("Esporta Rilevazioni load Localhost Config Error - " + message);
+			}	
+			message = "";
 		}					
 	}
 	

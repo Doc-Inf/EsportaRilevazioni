@@ -1,13 +1,13 @@
 package controller;
 
 import static view.AppLogger.log;
+import static view.AppLogger.removeLog;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.net.UnknownHostException;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -42,11 +42,37 @@ public class DecodeAndExport implements Runnable{
 		LocalDateTime lastDate = null;
 		switch(port) {
 		case 443:{
-			lastDate = getLastDate(true);		
+			lastDate = getLastDate(true);	
+			if(lastDate == null) {
+				log("Decode and Export Thread - La data dell'ultimo aggiornamento letta sul portale utilizzando il protocollo HTTPS ha dato come risultato null");
+			}else {
+				String message = "";
+				try {
+					if(lastDate.equals(LocalDateTime.of( 0, 1, 1, 1, 1) )) {
+						log("Errore critico nella lettura della data dell'ultimo aggiornamento sul sito, aggiornamento bloccato...");
+						return;
+					}
+				}catch(Exception e) {
+					message = e.getMessage();
+				}finally {
+					if(message!= null && !message.equals("")) {
+						log("Decode And Export Exception errore nel confronto del valore di last date con la data di errore: " + message);
+					}
+					message = "";
+				}				
+			}
 			break;
 		}
 		case 80:{
-			lastDate = getLastDate(false);		
+			lastDate = getLastDate(false);
+			if(lastDate == null) {
+				log("Decode and Export Thread - La data dell'ultimo aggiornamento letta sul portale utilizzando il protocollo HTTP (porta 80) ha dato come risultato null");
+			}else {
+				if(lastDate.equals(LocalDateTime.of( 0, 0, 0, 0, 0) )) {
+					log("Errore critico nella lettura della data dell'ultimo aggiornamento sul sito, aggiornamento bloccato...");
+					return;
+				}
+			}
 			break;
 		}
 		default:{
@@ -55,12 +81,15 @@ public class DecodeAndExport implements Runnable{
 		}
 				
 		}
-		if(dirRilevazioni !=null) {
+		if(dirRilevazioni != null) {
 			log("Decode and Export Thread - La directory con le rilevazioni è " + dirRilevazioni);
 			if( lastDate != null) {
 				int yearLastRilevazione = lastDate.getYear();
 				int monthLastRilevazione = lastDate.getMonthValue();
 				LocalDate now = LocalDate.now();
+				if(now.getDayOfMonth() == 1) {
+					removeLog();
+				}
 				int currentYear = now.getYear();
 				int currentMonth = now.getMonthValue();
 				
@@ -80,14 +109,20 @@ public class DecodeAndExport implements Runnable{
 							Thread t = new Thread( new RilevazioniController(hostname,port,projectDir,decodedFilename,lastDate) );
 							t.start();
 							boolean attesaUltimata = false;
+							String message = "";
 							do {
 								try {
 									t.join();
 									attesaUltimata = true;
 								} catch (InterruptedException e) {
-									log("Decode and Export Run method Error - " + e.getMessage() );
+									message = e.getMessage();
 									e.printStackTrace();
-								}
+								} finally {
+									if(message!= null && !message.equals("")) {
+										log("Decode And Export Attesa dell'invio dei dati al server interrotta. Anno ultima rilevazione uguale a quello corrente. Exception: " + message);
+									}
+									message = "";
+								}		
 							}while(!attesaUltimata);
 							log("Decode and Export Thread - Attesa Thread Rilevazioni Controller per il file " + decodedFilename + " ultimata");
 						}
@@ -107,14 +142,20 @@ public class DecodeAndExport implements Runnable{
 								Thread t = new Thread( new RilevazioniController(hostname,port,projectDir,decodedFilename,lastDate) );
 								t.start();
 								boolean attesaUltimata = false;
+								String message = "";
 								do {
 									try {
 										t.join();
 										attesaUltimata = true;
 									} catch (InterruptedException e) {
-										log("Decode and Export Run method Error - " + e.getMessage() );
+										message = e.getMessage();
 										e.printStackTrace();
-									}
+									} finally {
+										if(message!= null && !message.equals("")) {
+											log("Decode And Export Attesa dell'invio dei dati al server interrotta. Anno ultima rilevazione diverso da quello corrente. Exception: " + message);
+										}
+										message = "";
+									}	
 								}while(!attesaUltimata);
 								log("Decode and Export Thread - Attesa Thread Rilevazioni Controller per il file " + decodedFilename + " ultimata");
 							}
@@ -133,14 +174,20 @@ public class DecodeAndExport implements Runnable{
 								Thread t = new Thread( new RilevazioniController(hostname,port,projectDir,decodedFilename,lastDate) );
 								t.start();
 								boolean attesaUltimata = false;
+								String message = "";
 								do {
 									try {
 										t.join();
 										attesaUltimata = true;
 									} catch (InterruptedException e) {
-										log("Decode and Export Run method Error - " + e.getMessage() );
+										message = e.getMessage();
 										e.printStackTrace();
-									}
+									} finally {
+										if(message!= null && !message.equals("")) {
+											log("Decode And Export Attesa dell'invio dei dati al server interrotta. Invio dei mesi dimanenti dell'anno corrente (Situazione di partenza: anno ultima rilevazione diverso da quello corrente. Exception: " + message);
+										}
+										message = "";
+									}	
 								}while(!attesaUltimata);
 								log("Decode and Export Thread - Attesa Thread Rilevazioni Controller per il file " + decodedFilename + " ultimata");
 							}
@@ -159,6 +206,7 @@ public class DecodeAndExport implements Runnable{
 						throw new RuntimeException("La directory specificata non è accessibile");
 					}
 				}
+				String message = "";
 				try {
 					
 					List<String> fileWLK = Files.walk(dir).filter(file->!Files.isDirectory(file)).map(file->file.getFileName().toString()).filter(filename->{
@@ -184,22 +232,33 @@ public class DecodeAndExport implements Runnable{
 						Thread t = new Thread( new RilevazioniController(hostname,port,projectDir,decodedFilename) );
 						t.start();
 						boolean attesaUltimata = false;
+						message = "";
 						do {
 							try {
 								t.join();
 								attesaUltimata = true;
 							} catch (InterruptedException e) {
-								log("Decode and Export Run method Error - " + e.getMessage() );
+								message = e.getMessage();
 								e.printStackTrace();
-							}
+							} finally {
+								if(message!= null && !message.equals("")) {
+									log("Decode And Export Attesa dell'invio dei dati al server interrotta. Caso in cui la data di ultima rilevazione è pari a null, devono essere inviati tutti i file nel sistema. Exception: " + message);
+								}
+								message = "";
+							}	
 						}while(!attesaUltimata);
 						log("Decode and Export Thread - Attesa Thread Rilevazioni Controlloer " + i + " ultimata");
 					}					
 					
 				} catch (IOException e) {
-					log("Decode and Export Run method Error - " + e.getMessage() );
+					message = e.getMessage();
 					e.printStackTrace();
-				}
+				} finally {
+					if(message!= null && !message.equals("")) {
+						log("Decode And Export - Caso in cui la data di ultima rilevazione è pari a null, devono essere inviati tutti i file nel sistema. Exception:  " + message);
+					}	
+					message = "";
+				}	
 				
 			}
 		}else {
@@ -229,6 +288,7 @@ public class DecodeAndExport implements Runnable{
 	
 	private LocalDateTime getLastDate(boolean https) {
 		LocalDateTime lastDate = null;
+		String message = "";
 		try {	
 				Socket s;
 				if(https) {
@@ -249,6 +309,7 @@ public class DecodeAndExport implements Runnable{
 				Semaforo dataOttenuta = new Semaforo();
 				log("Decode and Export Thread - ricerca data ultima rilevazione iniziata");
 				new Thread(()->{
+					String innerMessage = "";
 					try {
 						log("Decode and Export -> ListenerThread - in attesa di risposta...");
 						boolean done = false;
@@ -297,9 +358,14 @@ public class DecodeAndExport implements Runnable{
 							condition.notify();
 						}
 					} catch (IOException e) {
-						log("Decode and Export getLastDate method Error - " + e.getMessage() );
+						innerMessage = e.getMessage();
 						e.printStackTrace();
-					}
+					} finally {
+						if(innerMessage!= null && !innerMessage.equals("")) {
+							log("Decode And Export getLastDate Exception: " + innerMessage);
+						}	
+						innerMessage = "";
+					}	
 				}).start();				
 								
 				out.println("GET /" + projectDir + "/ws/getLastDate.php HTTP/1.1");
@@ -308,31 +374,46 @@ public class DecodeAndExport implements Runnable{
 				out.println();
 				out.flush();
 				log("Decode and Export Thread - richiesta inviata...");
+				message = "";
 				while(!dataOttenuta.isDone()) {
+					message = "";
 					synchronized(condition) {
 						try {
 							condition.wait();
 						} catch (InterruptedException e) {
-							log("Decode and Export getLastDate method Error - " + e.getMessage() );
+							message = e.getMessage();
 							e.printStackTrace();
-						}
+						} finally {
+							if(message!= null && !message.equals("")) {
+								log("Eccezione: " + message);
+							}	
+							message = "";
+						}	
 					}
 				}
 				log("Decode and Export Thread - Risposta: " + sb.toString());
 				try {
-					//log("Decode and Export Thread - DATA DENTRO RESULT: " + result);
 					lastDate = LocalDateTime.parse(result.toString(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
 					log("Decode and Export Thread - Data ultima modifica: " + lastDate.toString());	
 				}catch(Exception e) {
-					log("Decode and Export getLastDate method Error - " + e.getMessage() );
+					message = e.getMessage();
 					return null;
-				}
+				} finally {
+					if(message!= null && !message.equals("")) {
+						log("Decode And Export getLastDate Exception: " + message);
+					}
+					message = "";
+				}	
 			
 			
-		} catch (UnknownHostException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
+		} catch (Exception e) {
+			message = e.getMessage();
+			return LocalDateTime.of(0, 1, 1, 1, 1);
+		} finally {
+			if(message!= null && !message.equals("")) {
+				log("Decode And Export getLastDate Exception: " + message);
+			}	
+			message = "";
 		}	
 		
 		return lastDate;
