@@ -48,7 +48,7 @@ public class DecodeAndExport implements Runnable{
 			}else {
 				String message = "";
 				try {
-					if(lastDate.equals(LocalDateTime.of( 0, 1, 1, 1, 1) )) {
+					if(lastDate.equals(LocalDateTime.of( 1, 1, 1, 1, 1, 1) )) {
 						log("Errore critico nella lettura della data dell'ultimo aggiornamento sul sito, aggiornamento bloccato...");
 						return;
 					}
@@ -393,11 +393,21 @@ public class DecodeAndExport implements Runnable{
 				}
 				log("Decode and Export Thread - Risposta: " + sb.toString());
 				try {
-					lastDate = LocalDateTime.parse(result.toString(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-					log("Decode and Export Thread - Data ultima modifica: " + lastDate.toString());	
+					String data = result.toString();
+					String[] info = data.split("\\*");
+					if( info.length >1) {
+						log("Decode and Export Thread - Errore nella ricerca della data dell'utlima rilevazione (ricevuto dal PHP): " + info[1]);	
+					}else {
+						lastDate = LocalDateTime.parse( data, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+						// Questo valore viene restituito se nel database non sono presenti misurazioni, quindi è necessario caricare tutte le rilevazioni
+						if(lastDate.equals(LocalDateTime.of( 2, 2, 2, 2, 2, 2))) {
+							return null;
+						}
+						log("Decode and Export Thread - Data ultima modifica: " + lastDate.toString());	
+					}					
 				}catch(Exception e) {
 					message = e.getMessage();
-					return null;
+					return LocalDateTime.of( 1, 1, 1, 1, 1, 1);
 				} finally {
 					if(message!= null && !message.equals("")) {
 						log("Decode And Export getLastDate Exception: " + message);
@@ -408,7 +418,7 @@ public class DecodeAndExport implements Runnable{
 			
 		} catch (Exception e) {
 			message = e.getMessage();
-			return LocalDateTime.of(0, 1, 1, 1, 1);
+			return LocalDateTime.of(1, 1, 1, 1, 1, 1);
 		} finally {
 			if(message!= null && !message.equals("")) {
 				log("Decode And Export getLastDate Exception: " + message);
